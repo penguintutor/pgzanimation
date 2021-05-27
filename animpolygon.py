@@ -26,8 +26,8 @@ class AnimFilledPolygon(PgzAnimation):
 
         # polygon with transformation - start at 0 rotation
         self._transform()
-        
-        
+
+
     # used to transform a object - scale
     # value (1,1) is default size
     @property
@@ -49,13 +49,13 @@ class AnimFilledPolygon(PgzAnimation):
     def points(self, new_points):
         self._points = [*new_points]
         self._angle = 0
-    
+
     # Gets a rect object - can be used for collidepoint etc.
     # Uses a bounding box based on current transformations
     @property
     def rect(self):
         return self.get_rect()
-        
+
     def get_rect(self):
         low_x = None
         low_y = None
@@ -104,7 +104,7 @@ class AnimFilledPolygon(PgzAnimation):
         else: # center
             diff = (high_y - low_y) / 2
             self._pos[1] = low_y + diff
-            
+
     # Reset to defaults - scale, angle and anchor
     def reset(self):
         self._scale = [1,1]
@@ -140,29 +140,12 @@ class AnimFilledPolygon(PgzAnimation):
             return_points.append((vector[0]+self._pos[0], vector[1]+self._pos[1]))
         return return_points
 
-    # rotate to an absolute from current position
-    def rotate_tween (self, start, end, current, angle):
-        if (current < start or current > end):
-            return
-        if (current == start):
-            self.rotate_start_angle = self._angle
-        d_angle = (angle - self.rotate_start_angle) / (end-start)
-        new_angle = self.rotate_start_angle + d_angle * (current-start)
-        self.rotate(new_angle)
 
-    # rotate a relative amount
-    def rotate_rel_tween (self, start, end, current, angle):
-        if (current < start or current > end):
-            return
-        if (current == start):
-            self.rotate_start_angle = self._angle
-        rel_angle = angle - rotate_start_angle / (end-start)
-        self.rotate(self._angle+rel_angle)
 
     def rotate (self, angle):
         self._angle = angle
         self._transform()
-        
+
     # scale to newscale from current scale
     def scale_tween (self, start, end, current, newscale):
         if (current < start or current > end):
@@ -170,18 +153,21 @@ class AnimFilledPolygon(PgzAnimation):
         if (current == start):
             self.scale_start = self._scale
         # rel between start and end
-        rel_scale_x = newscale[0] - self.scale_start[0] / (end-start)
-        rel_scale_y = newscale[1] - self.scale_start[1] / (end-start)
-        
+        rel_scale_x = (newscale[0] - self.scale_start[0]) / (end-start)
+        rel_scale_y = (newscale[1] - self.scale_start[1]) / (end-start)
+
         self._scale[0] = self.scale_start[0] + rel_scale_x * (current-start)
         self._scale[1] = self.scale_start[1] + rel_scale_y * (current-start)
         self._transform()
-        
+
 
 
     # Updates vectors and new points using rotation and scaling
     def _transform (self):
-        angle_rads = math.radians(self._angle)
+        # use angle in radians - turns opposite way to pygame
+        # to be consistant with pygame zero actor which
+        # moves up with a positive angle (anti-clockwise)
+        angle_rads = math.radians(self._angle) * -1
         s = math.sin(angle_rads)
         c = math.cos(angle_rads)
         new_vectors=[]
@@ -202,38 +188,12 @@ class AnimFilledPolygon(PgzAnimation):
 
     def draw(self):
         if self.hide: return
-        pygame.draw.polygon(self._surface, self._color, self._transform_points)
+        # convert from list of tuples of floats to ints
+        points_ints = [(math.floor(point[0]),math.floor(point[1])) for point in self._transform_points]
+        pygame.draw.polygon(self._surface, self._color, points_ints)
 
 
-    # tweened movement to absolute position
-    def move_tween (self, start, end, current, goto):
-        if (current < start or current > end):
-            return
-        if (current == start):
-            self.move_start_pos = self._pos
-        # work out delta between start and end
-        dx = (goto[0] - self.move_start_pos[0]) / (end-start)
-        dy = (goto[1] - self.move_start_pos[1]) / (end-start)
 
-        newpos = [0,0]
-        # Add delta to start position
-        newpos[0] = self.move_start_pos[0] + dx * (current - start)
-        newpos[1] = self.move_start_pos[1] + dy * (current - start)
-        self.move (newpos)
-
-    # tweened movement to relative position
-    def move_rel_tween (self, start, end, current, delta):
-        if (current < start or current > end):
-            return
-        # work out delta between start and end
-        dx = delta[0] / (end-start)
-        dy = delta[1] / (end-start)
-
-        newpos = [0,0]
-        # Add delta to start position
-        newpos[0] = self._pos[0] + dx
-        newpos[1] = self._pos[1] + dy
-        self.move (newpos)
 
     # Moves immediately to new position
     def move (self, newpos):
@@ -269,4 +229,6 @@ class AnimPolygon (AnimFilledPolygon):
 
     def draw(self):
         if self.hide: return
-        pygame.draw.polygon(self._surface, self._color, self._transform_points, self.width)
+        # convert from list of tuples of floats to ints
+        points_ints = [(math.floor(point[0]),math.floor(point[1])) for point in self._transform_points]
+        pygame.draw.polygon(self._surface, self._color, points_ints, self.width)

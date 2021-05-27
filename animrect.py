@@ -1,5 +1,6 @@
 from animpolygon import AnimFilledPolygon
 import pygame
+import math
 
 # Must only have 1 movement happening at a time - otherwise confusion over which applies
 # Can have a rotate at the same time as a movement
@@ -36,4 +37,6 @@ class AnimRect(AnimFilledRect):
 
     def draw(self):
         if self.hide: return
-        pygame.draw.polygon(self._surface, self._color, self._transform_points, self.width)
+        # convert from list of tuples of floats to ints
+        points_ints = [(math.floor(point[0]),math.floor(point[1])) for point in self._transform_points]
+        pygame.draw.polygon(self._surface, self._color, points_ints, self.width)

@@ -4,7 +4,7 @@ import math
 # Library for creating animations in pygame zero which can be exported
 # as png image files and optionally converted to videos
 
-# For more details see http://www.penguintutor.com/programming/pgzanimation 
+# For more details see http://www.penguintutor.com/programming/pgzanimation
 
 
 
@@ -13,7 +13,7 @@ class PgzAnimation():
     # start from top left and goes width across and height down
     def __init__(self, color, anchor=('center', 'center')):
         self._color = color
-        
+
         # angle in degrees
         self._angle = 0
         self.hide = False
@@ -72,6 +72,57 @@ class PgzAnimation():
         self.calc_pos()
         # recalculate vectors
         self._transform()
+
+    # rotate to an absolute from current position
+    def rotate_tween (self, start, end, current, angle):
+        if (current < start or current > end):
+            return
+        if (current == start):
+            self.rotate_start_angle = self._angle
+        d_angle = (angle - self.rotate_start_angle) / (end-start)
+        new_angle = self.rotate_start_angle + d_angle * (current-start)
+        self.rotate(new_angle)
+
+    # rotate a relative amount
+    def rotate_rel_tween (self, start, end, current, angle):
+        if (current < start or current > end):
+            return
+        if (current == start):
+            self.rotate_start_angle = self._angle
+        rel_angle = (angle - rotate_start_angle) / (end-start)
+        self.rotate(self._angle+rel_angle)
+
+    # tweened movement to absolute position
+    def move_tween (self, start, end, current, goto):
+        if (current < start or current > end):
+            return
+        if (current == start):
+            self.move_start_pos = self._pos
+        # work out delta between start and end
+        dx = (goto[0] - self.move_start_pos[0]) / (end-start)
+        dy = (goto[1] - self.move_start_pos[1]) / (end-start)
+
+        newpos = [0,0]
+        # Add delta to start position
+        newpos[0] = self.move_start_pos[0] + dx * (current - start)
+        newpos[1] = self.move_start_pos[1] + dy * (current - start)
+        self.move (newpos)
+
+    # tweened movement to relative position
+    def move_rel_tween (self, start, end, current, delta):
+        if (current < start or current > end):
+            return
+        if (current == start):
+            self.move_start_pos = self._pos
+        # work out delta between start and end
+        dx = delta[0] / (end-start)
+        dy = delta[1] / (end-start)
+
+        newpos = [0,0]
+        # Add delta to current position
+        newpos[0] = self._pos[0] + dx
+        newpos[1] = self._pos[1] + dy
+        self.move (newpos)
 
 
     # Print test with information about the shape
