@@ -16,7 +16,7 @@ class TestPolygon(unittest.TestCase):
     def test_rotate(self):
         polygon1 = AnimPolygon (((200, 50), (260, 50), (260,150), (200,150)), (255,0,255))
         self.assertEqual(polygon1.pos, [230,100])
-        polygon1.angle = 45
+        polygon1.angle = -45
         # based on center, center so pos does not change
         self.assertEqual(polygon1.pos, [230,100])
         # original points unchanged
