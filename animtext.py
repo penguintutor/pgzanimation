@@ -1,6 +1,9 @@
 import pygame
-from pgzero import ptext
+# import local ptext as that supports more granular rotation
+#from pgzero import ptext
+import ptext
 from pgzanimation import PgzAnimation
+
 
 class AnimText(PgzAnimation):
 
@@ -40,7 +43,7 @@ class AnimText(PgzAnimation):
 
     def move(self, newpos):
         self._pos=newpos
-        
+
     def rotate (self,angle):
         self._angle = angle
 
@@ -51,4 +54,3 @@ class AnimText(PgzAnimation):
 
     def draw(self):
         ptext.draw(self._text_string, self._pos, angle=self._angle, color=self._color, surf=self._surface, **self.kwargs)
-
