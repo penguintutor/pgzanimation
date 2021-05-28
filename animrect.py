@@ -38,5 +38,5 @@ class AnimRect(AnimFilledRect):
     def draw(self):
         if self.hide: return
         # convert from list of tuples of floats to ints
-        points_ints = [(math.floor(point[0]),math.floor(point[1])) for point in self._transform_points]
+        points_ints = [(round(point[0]),round(point[1])) for point in self._transform_points]
         pygame.draw.polygon(self._surface, self._color, points_ints, self.width)
