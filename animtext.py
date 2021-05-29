@@ -18,7 +18,7 @@ class AnimText(PgzAnimation):
         # Text specific fields are stored in kwargs
         self.kwargs = kwargs
         # These are the mandatory defaults
-        if not 'fontsize' in self.kwargs: kwargs['fontsize'] = 22
+        if not 'fontsize' in self.kwargs: kwargs['fontsize'] = 40
 
         self.move_start_pos = self._pos
         self.rotate_start_angle = self._angle

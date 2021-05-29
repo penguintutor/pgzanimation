@@ -13,25 +13,28 @@ from animtext import AnimText
 class AnimBulletText(AnimText):
 
     # has fixed mandatory fields then kwargs
-    def __init__(self, text_string, pos, color="black", anchor=(0,0), angle=0, bulletstyle="circle", bulletsize=10, bulletpad=5, bulletcolor=(0,0,0), **kwargs):
+    def __init__(self, text_string, pos, color="black", anchor=(0,0), angle=0,
+        bulletstyle="circle", bulletsize=10, bulletpad=10, bulletcolor=(0,0,0),
+        **kwargs):
+
         super().__init__(text_string, pos, color, anchor, angle, **kwargs)
-        
+
         # bullet parameters
         self.bulletstyle = bulletstyle
         self.bulletsize = bulletsize
         self._bulletpad = [0,0] # override by checking if pad is tuple or value
         self._setbulletpad (bulletpad)
         self.bulletcolor = bulletcolor
-        
-    @property  
+
+    @property
     # bullet pad always returns list
     def bulletpad(self):
         return (self._bulletpad)
-        
+
     @bulletpad.setter
     def bulletpad(self, bulletpad):
         self._setbulletpad (bulletpad)
-        
+
     def _setbulletpad(self, bulletpad):
         # check if it's a list / tuple - if so save
         if type(bulletpad) == tuple or type(bulletpad) == list:
