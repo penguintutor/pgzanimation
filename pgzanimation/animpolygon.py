@@ -1,6 +1,6 @@
 import pygame
 import math
-from pgzanimation import PgzAnimation
+from .pgzanimation import PgzAnimation
 
 # Does not support opacity
 

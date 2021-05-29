@@ -1,6 +1,6 @@
 import pygame
 from pgzero.actor import Actor
-from pgzanimation import PgzAnimation
+from .pgzanimation import PgzAnimation
 
 class AnimActor(PgzAnimation):
 
@@ -42,5 +42,4 @@ class AnimActor(PgzAnimation):
         self.actor.anchor=(0,0)
         self._angle=0
         self.actor.angle=0
-
 

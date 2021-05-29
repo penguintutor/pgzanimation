@@ -2,9 +2,9 @@ import pygame
 import pgzero.screen
 # import local ptext as that supports more granular rotation
 #from pgzero import ptext
-import ptext
-from pgzanimation import PgzAnimation
-from animtext import AnimText
+from . import ptext
+from .pgzanimation import PgzAnimation
+from .animtext import AnimText
 
 # Special text which has bullets
 # bulletstyle can be circle (default) or none (use for spacing to line up with other bullets)

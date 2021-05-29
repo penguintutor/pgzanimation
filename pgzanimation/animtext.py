@@ -1,8 +1,8 @@
 import pygame
 # import local ptext as that supports more granular rotation
 #from pgzero import ptext
-import ptext
-from pgzanimation import PgzAnimation
+from . import ptext
+from .pgzanimation import PgzAnimation
 
 
 class AnimText(PgzAnimation):
