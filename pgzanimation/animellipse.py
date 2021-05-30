@@ -27,6 +27,7 @@ class AnimFilledEllipse(PgzAnimation):
 
         # rect with transformation - start at 0 rotation
         self._transform_rect = rect
+                                 
 
     # Gets a rect object - can be used for collidepoint etc.
     # Uses a bounding box based on current transformations
@@ -90,6 +91,8 @@ class AnimFilledEllipse(PgzAnimation):
         
         # recalculate pos
         self.calc_pos()
+        self._transform()
+ 
 
 
     def rotate (self, angle):
@@ -113,14 +116,61 @@ class AnimFilledEllipse(PgzAnimation):
         self._transform()
 
 
-    def _transform():
+    def _transform(self):
+        self._transform_rect = self._rect.copy()
         # Find top left based on anchor position and rotation
         # Only if angle is between 45 and 315 - otherwise just use current rect
-        if (self._angle <45 or self._angle>315):
-            self._transform_rect = self.rect
+        if (self._angle <45 or self._angle>=315):
             return
         # Todo
         # Need to add rotation of rectangle points
+        # turns opposite way to pygame
+        # limited rotation - so calc manually
+        
+        # x rotation
+        if (self._anchor[0] == "left"):
+            if (self._angle >= 135 and self._angle < 225):
+                self._transform_rect.left-=self._transform_rect.width
+            elif (self._angle >= 225 and self._angle < 315):
+                self._transform_rect.left-=self._transform_rect.height
+        elif (self._anchor[0] == "right"):
+            if (self._angle >= 45 and self._angle < 135):
+                self._transform_rect.left+=self._transform_rect.height+self._transform_rect.width
+            elif (self._angle >= 135 and self._angle < 225):
+                self._transform_rect.left+=self._transform_rect.width*2   
+            elif (self._angle >= 225 and self._angle < 315):    
+                self._transform_rect.left+=self._transform_rect.width -  self._transform_rect.height          
+        elif (self._anchor[0] == "center"):
+            if (self._angle >= 45 and self._angle < 135):
+                self._transform_rect.left+=self._transform_rect.width/2-self._transform_rect.height/2
+            elif (self._angle >= 225 and self._angle < 315):
+                self._transform_rect.left+=self._transform_rect.width/2-self._transform_rect.height/2
+            
+        # y rotation
+        if (self._anchor[1] == "top"):
+            if (self._angle >= 45 and self._angle < 135):
+                self._transform_rect.top-=self._transform_rect.width
+            if (self._angle >= 135 and self._angle < 225):
+                self._transform_rect.top-=self._transform_rect.height
+        if (self._anchor[1] == "bottom"):
+            if (self._angle >= 45 and self._angle < 135):
+                self._transform_rect.top+=self._transform_rect.height
+            if (self._angle >= 135 and self._angle < 225):
+                self._transform_rect.top+=self._transform_rect.height*2
+            if (self._angle >= 225 and self._angle < 315):  
+                self._transform_rect.top+=self._transform_rect.height-self._transform_rect.width
+        elif (self._anchor[1] == "center"):
+            if (self._angle >= 45 and self._angle < 135):
+                self._transform_rect.top+=self._transform_rect.height/2-self._transform_rect.width/2
+            elif (self._angle >= 225 and self._angle < 315):
+                self._transform_rect.top+=self._transform_rect.height/2-self._transform_rect.width/2
+ 
+        # swap width and height 90 and 270
+        if (self._angle >= 45 and self._angle < 135 or self._angle >= 225 and self._angle < 315):
+            self._transform_rect.width = self._rect.height
+            self._transform_rect.height = self._rect.width
+        
+
         
 
 
@@ -166,4 +216,4 @@ class AnimEllipse (AnimFilledEllipse):
 
     def draw(self):
         if self.hide: return
-        pygame.draw.ellipse(self._surface, self._color, self._tranform_rect, self.width)
+        pygame.draw.ellipse(self._surface, self._color, self._transform_rect, self.width)
