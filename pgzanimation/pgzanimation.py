@@ -41,10 +41,7 @@ class PgzAnimation():
     # If outside that range then add / subtract 360 - attempt to fix
     @angle.setter
     def angle(self, new_value):
-        if (new_value >= 360):
-            new_value -= 360
-        if (new_value <= -360):
-            new_value += 360
+        new_value %= 360
         self.rotate (new_value)
 
     # position - starts based on original
