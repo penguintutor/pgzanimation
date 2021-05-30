@@ -54,10 +54,9 @@ class AnimBulletText(AnimText):
         ptext.draw(self._text_string, text_pos, angle=self._angle, color=self._color, surf=self._surface, **self.kwargs)
         # draw bullet
         bullet_pos = [
-            self._pos[0]+self._bulletpad[0]+round(self.bulletsize/2),
-            self._pos[1]+self._bulletpad[1]
+            round(self._pos[0]+self._bulletpad[0]+round(self.bulletsize/2)),
+            round(self._pos[1]+self._bulletpad[1])
             ]
         if (self.bulletstyle == "circle"):
-            #screen.draw.filled_circle (bullet_pos, (self.bulletsize/2), bulletcolor)
             pygame.draw.circle (self._surface, self.bulletcolor, bullet_pos, round(self.bulletsize/2), 0)
         # if not one of above then either invalid or none - either case ignore
