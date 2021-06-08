@@ -5,7 +5,7 @@
 # include multiple transformations
 
 import unittest
-from animpolygon import AnimPolygon
+from pgzanimation import *
 
 class TestPolygon(unittest.TestCase):
     def test_create(self):
@@ -16,17 +16,17 @@ class TestPolygon(unittest.TestCase):
     def test_rotate(self):
         polygon1 = AnimPolygon (((200, 50), (260, 50), (260,150), (200,150)), (255,0,255))
         self.assertEqual(polygon1.pos, [230,100])
-        polygon1.angle = -45
+        polygon1.angle = 45
         # based on center, center so pos does not change
         self.assertEqual(polygon1.pos, [230,100])
         # original points unchanged
         self.assertEqual(polygon1._points, [(200, 50), (260, 50), (260,150), (200,150)])
         # return points updated
         self.assertEqual(polygon1.points, [
-                            (244.14213562373095, 43.431457505076196),
-                            (286.5685424949238, 85.85786437626905),
-                            (215.85786437626905, 156.5685424949238),
-                            (173.4314575050762, 114.14213562373095)])
+                            (173.4314575050762, 85.85786437626905),
+                            (215.85786437626905, 43.431457505076196),
+                            (286.5685424949238, 114.14213562373095),
+                            (244.14213562373095, 156.5685424949238)])
 
 
     # Move relative
