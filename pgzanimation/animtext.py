@@ -53,4 +53,4 @@ class AnimText(PgzAnimation):
         self._angle=0
 
     def draw(self):
-        ptext.draw(self._text_string, self._pos, angle=self._angle, color=self._color, surf=self._surface, **self.kwargs)
+        ptext.draw(self._text_string, self._pos, angle=self._angle, color=self._color, surf=self._surface, anchor=self._anchor, **self.kwargs)
