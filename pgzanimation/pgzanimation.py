@@ -132,5 +132,8 @@ class PgzAnimation():
         print ("Rot Points: "+str(self._transform_points))
 
 
-    def update(self):
+    # update can take an optional argument of current_frame
+    # This is not used at the moment, but allows consistancy with slides 
+    # which do need the current frame
+    def update(self, current_frame=-1):
         pass

@@ -6,3 +6,5 @@ from .animbullettext import AnimBulletText
 from .animellipse import AnimFilledEllipse, AnimEllipse
 from .animcircle import AnimFilledCircle, AnimCircle
 from .animline import AnimLine
+from .slide import Slide
+from .slidebullets import SlideBullets
