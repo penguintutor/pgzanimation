@@ -11,7 +11,7 @@ from pgzanimation import AnimText
 
 class Slide():
     
-    def __init__(self, size, title, titlealign="center", titley=100):
+    def __init__(self, size, title, titlealign="center", titley=100, titlefontsize=80):
         self._enable = False        # User should not change this except by calling show_slide
         self._hide = False
         self._size = size
@@ -20,7 +20,8 @@ class Slide():
         if (titlealign=="center"):
             self._titlex = self._size[0]/2
         self._titley = titley
-        self._title = AnimText (title, (self._titlex,self._titley), anchor=(0.5,0.5))
+        self._titlefontsize = titlefontsize
+        self._title = AnimText (title, (self._titlex,self._titley), anchor=(0.5,0.5), fontsize=self._titlefontsize)
         self._slide_start_frame = 0
         self._slide_end_frame = 0
         
