@@ -34,7 +34,7 @@ You can for example have a scale tween or a rotate tween happening at the same
 time as a move tween.
 
 Do not attempt to hide / unhide during animate transitions eg. animate_bullet
-as depending upon the transition type the hide / unhide may be overridden
+as depending upon the transition type the hide / unhide may be overridden.
 
 ## Understanding the methods
 
