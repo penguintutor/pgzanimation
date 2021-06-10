@@ -16,5 +16,9 @@ See following example code based on top left pixel
 
 convert logo: -fuzz 25% -fill none -draw "matte 0,0 floodfill" -channel alpha -blur 0x1 -level 50x100% +channel -background saddlebrown -flatten result.jpg
 
+## In progress
+
+For slide bullets - determine how to handle transition vs display time
+
 ## Testing
 Lots more testing is needed

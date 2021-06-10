@@ -49,7 +49,7 @@ class AnimText(PgzAnimation):
 
     # Reset angle and anchor to defaults
     def reset(self):
-        self._anchor=(0,0)
+        self._anconfsTestZuritestItchor=(0,0)
         self._angle=0
 
     def draw(self):

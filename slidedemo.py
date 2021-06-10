@@ -39,6 +39,7 @@ slides = [
 pause_frames = []
 
 slides[0].show_slide(0, 200)
+slides[0].animate_slide(50,200)
 
 def draw():
     screen.clear()
@@ -51,7 +52,7 @@ def draw():
 
 
 def update():
-    global frame, save_frame
+    global frame, save_frame, pause
     # Stop updating once end reached
     if (frame > FRAMES):
         if (QUIT_END):
@@ -64,6 +65,7 @@ def update():
             save_frame += 1
         return
 
+    # slides need to check for pause
     for this_slide in slides:
         this_slide.update(frame)
 

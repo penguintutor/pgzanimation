@@ -41,9 +41,14 @@ class Slide():
     def show_slide (self, start_frame, end_frame):
         self._slide_start_frame = start_frame
         self._slide_end_frame = end_frame
+        
+
+    # slides act differently to anim objects
+    # for slides we normally don't use current frame - just set start and end
+    # then let the slide manage through update(current_frame)
     
     # animates slide - eg. show bullets
-    def animate_slide (self, start_frame, end_frame, current_frame):
+    def animate_slide (self, start_frame, end_frame):
         pass
     
     def draw(self):
@@ -52,10 +57,12 @@ class Slide():
             # returning False means do not show rest of slide
             return False
         self._title.draw()
+        return True
 
     
     # current_frame is an optional parameter, but is required for some
-    # features to work (eg. show_slide)
+    # features to work (eg. show_slide), without current_frame then 
+    # elements would need to be turned on / off using hide
     def update(self, current_frame=-1):
         # special case if current frame is -1 then does not support frames in updates (may need to manually disable using hide
         if (current_frame == -1):
@@ -65,4 +72,7 @@ class Slide():
             self._enable = True
         else:
             self._enable = False
+        # master slide class does not support pausing (but subclasses can
+        # by overloading update)
+        return False
         

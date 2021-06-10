@@ -19,6 +19,7 @@ class PgzAnimation():
         self.hide = False
         self._anchor = [*anchor]
 
+
         # Get Pygame surface for draw()
         self._surface = pygame.display.get_surface()
 
@@ -133,7 +134,9 @@ class PgzAnimation():
 
 
     # update can take an optional argument of current_frame
-    # This is not used at the moment, but allows consistancy with slides 
+    # This is not used on all classes, but allows consistancy with slides 
     # which do need the current frame
+    # return value is whether to pause - normally that's just false 
+    # it is normally only used by slides
     def update(self, current_frame=-1):
-        pass
+        return False
