@@ -12,7 +12,7 @@ class AnimText(PgzAnimation):
         super().__init__(color, anchor)
         self._text_string = text_string
         # These parameters are common across all pgzanimation so defined here
-        self._pos = pos
+        self._pos = [*pos]
         self._angle = angle
         self._color = color
         # Text specific fields are stored in kwargs

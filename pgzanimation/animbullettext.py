@@ -32,6 +32,9 @@ class AnimBulletText(AnimText):
         # overwrite default hide state with init hide parameter
         self.hide = hide
 
+        # used for transitions - bullet slide
+        self._goto_pos = []
+
     @property
     # bullet pad always returns list
     def bulletpad(self):
@@ -68,15 +71,54 @@ class AnimBulletText(AnimText):
         if (self.bulletstyle == "circle"):
             pygame.draw.circle (self._surface, self.bulletcolor, bullet_pos, round(self.bulletsize/2), 0)
         # if not one of above then either invalid or none - either case ignore
-        
-        
+
+
     # animate bullet appearing - start transition at start and end by end
     # after end will continue to show until slide complete
     def animate_bullet(self, start, end, current):
         if (current < start or current > end):
             return
-        # todo - only support appear at the moment
-        # must be in valid range
+        # appear (appears immediately at start of transition)
         if (self.bullettransition == "appear"):
             self.hide = False
-    
+        # move from left
+        elif (self.bullettransition == "slidefromleft"):
+            # first frame use pos as the goto
+            if (current == start):
+                self.hide = False
+                self._goto_pos = [*self._pos]
+                # now move offscreen
+                # calculate width - that's how far we move to left
+                self._pos[0] -= self._surface.get_width()
+            # call the normal move tween
+            self.move_tween(start, end, current, self._goto_pos)
+        elif (self.bullettransition == "slidefromright"):
+            # first frame use pos as the goto
+            if (current == start):
+                self.hide = False
+                self._goto_pos = [*self._pos]
+                # now move offscreen
+                # calculate width - that's how far we move to left
+                self._pos[0] += self._surface.get_width()
+            # call the normal move tween
+            self.move_tween(start, end, current, self._goto_pos)
+        elif (self.bullettransition == "slidefromtop"):
+            # first frame use pos as the goto
+            if (current == start):
+                self.hide = False
+                self._goto_pos = [*self._pos]
+                # now move offscreen
+                # calculate width - that's how far we move to left
+                self._pos[1] -= self._surface.get_height()
+            # call the normal move tween
+            self.move_tween(start, end, current, self._goto_pos)
+        elif (self.bullettransition == "slidefrombottom"):
+            # first frame use pos as the goto
+            if (current == start):
+                self.hide = False
+                self._goto_pos = [*self._pos]
+                # now move offscreen
+                # calculate width - that's how far we move to left
+                self._pos[1] += self._surface.get_height()
+            # call the normal move tween
+            self.move_tween(start, end, current, self._goto_pos)

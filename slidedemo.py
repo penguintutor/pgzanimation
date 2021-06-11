@@ -28,18 +28,25 @@ bullets1 = [
     "Bullet 2",
     "Bullet 3"
     ]
+bullets1_timings = [
+    (119, 186, 254),
+    (255, 322, 390),
+    (391, 458, 526)
+    ]
 shapes = []
 
 slides = [
-    SlideBullets ((WIDTH,HEIGHT), "Slide Title", bullets1)
+    SlideBullets ((WIDTH,HEIGHT), "Slide Title", bullets1, bulletpause=False, bullettransition="slidefrombottom")
     ]
 
 
 # Add any pauses to this
+# Pauses can also result from certain animations (eg. after each bullet)
 pause_frames = []
 
-slides[0].show_slide(0, 200)
-slides[0].animate_slide(50,200)
+slides[0].show_slide(0, 600)
+#slides[0].animate_slide(50,600)
+slides[0].animate_slide(50,600,bullets1_timings)
 
 def draw():
     screen.clear()
@@ -67,7 +74,7 @@ def update():
 
     # slides need to check for pause
     for this_slide in slides:
-        this_slide.update(frame)
+        if (this_slide.update(frame) == True): pause=True
 
     frame += 1
     save_frame += 1

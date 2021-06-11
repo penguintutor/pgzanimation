@@ -71,6 +71,11 @@ class PgzAnimation():
         # recalculate vectors
         self._transform()
 
+    # returns size of surface (screen size)
+    def get_screen_size(self):
+        return (self._surface.get_size())
+
+
     # rotate to an absolute from current position
     def rotate_tween (self, start, end, current, angle):
         if (current < start or current > end):
@@ -134,9 +139,15 @@ class PgzAnimation():
 
 
     # update can take an optional argument of current_frame
-    # This is not used on all classes, but allows consistancy with slides 
+    # This is not used on all classes, but allows consistancy with slides
     # which do need the current frame
-    # return value is whether to pause - normally that's just false 
+    # return value is whether to pause - normally that's just false
     # it is normally only used by slides
     def update(self, current_frame=-1):
         return False
+
+# get size from surface
+        self._surface = pygame.display.get_surface()
+        self._size = self._surface.get_size()
+
+        print ("Surface size {} {}".format(self._size[0], self._size[1]))
