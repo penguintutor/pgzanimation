@@ -1,16 +1,24 @@
 import pygame
 import math
 from .pgzanimation import PgzAnimation
+#from .point import Point
+#from .pgzanimation import Point
+#from point import Point
 
 
-# Draw a filled polygon based around points
+# Draw a line - 
+# Style can be solid or dashed, if dashed then spacing is (onlength,offlength)
+# Todo add dotted
 class AnimLine(PgzAnimation):
 
-    def __init__(self, start, end, color, anchor=('center', 'center'), width=1):
+    def __init__(self, start, end, color, anchor=('center', 'center'), width=1, style="solid", spacing=[10,5]):
         super().__init__(color, anchor)
         self._start = [*start]
         self._end = [*end]
         self._width = width
+        
+        self.style = style
+        self.spacing = spacing
 
         # create with a scale of 1 update later if required
         # scale moves start and end - not width
@@ -193,9 +201,43 @@ class AnimLine(PgzAnimation):
 
     def draw(self):
         if self.hide: return
-        pygame.draw.line(self._surface, self._color, self._transform_start, self._transform_end, self._width)
+        if (self.style == "solid"):
+            pygame.draw.line(self._surface, self._color, self._transform_start, self._transform_end, self._width)
+        elif (self.style == "dashed"):
+            self._draw_dashed()
+                
 
-
+    def _draw_dashed(self):
+        start = self._transform_start
+        end = self._transform_end
+        # distance in pixels along line (hypotenuse of RH triangle)
+        length = math.sqrt((end[0]-start[0])**2 + (end[1]-start[1])**2)
+        # get angle 
+        # special case - if vertical then will result in divide by 0
+        # so instead use 90 degrees - as radians
+        if (end[0] == start[0]):
+            angle = math.radians(90) # 
+        else:
+            angle = math.atan((end[1]-start[1])/(end[0]-start[0]))
+        spacing_both = self.spacing[0] + self.spacing[1]
+        
+        num_sections = round(length / (self.spacing[0]+self.spacing[1]))
+        for i in range (0, num_sections):
+            # start is distance * preceding sections lengths 
+            # then use cos / sin rules to get dx,dy
+            section_start = [
+                start[0] + (math.cos(angle) * (i * spacing_both)),
+                start[1] + (math.sin(angle) * (i * spacing_both)),
+                ]
+            section_end = [
+                start[0] + (math.cos(angle) * ((i * spacing_both)+self.spacing[0])),
+                start[1] + (math.sin(angle) * ((i * spacing_both)+self.spacing[0]))
+                ]
+            # draw first part filled
+            pygame.draw.line(self._surface, self._color, section_start, section_end, self._width)
+            
+        
+        
 
 
     # Moves immediately to new position
