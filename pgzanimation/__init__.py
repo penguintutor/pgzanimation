@@ -8,4 +8,3 @@ from .animcircle import AnimFilledCircle, AnimCircle
 from .animline import AnimLine
 from .slide import Slide
 from .slidebullets import SlideBullets
-from .point import Point
