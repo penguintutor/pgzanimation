@@ -62,7 +62,7 @@ class AnimBulletText(AnimText):
             self._pos[0]+2*self._bulletpad[0]+self.bulletsize,
             self._pos[1]
             ]
-        ptext.draw(self._text_string, text_pos, angle=self._angle, color=self._color, surf=self._surface, **self.kwargs)
+        ptext.draw(self.text, text_pos, angle=self._angle, color=self._color, surf=self._surface, **self.kwargs)
         # draw bullet
         bullet_pos = [
             round(self._pos[0]+self._bulletpad[0]+round(self.bulletsize/2)),

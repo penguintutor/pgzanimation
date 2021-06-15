@@ -2,6 +2,7 @@ import pygame
 # import local ptext as that supports more granular rotation
 #from pgzero import ptext
 from . import ptext
+from pgzero import loaders
 from .pgzanimation import PgzAnimation
 
 
@@ -10,7 +11,7 @@ class AnimText(PgzAnimation):
     # has fixed mandatory fields then kwargs
     def __init__(self, text_string, pos, color="black", anchor=(0,0), angle=0,  **kwargs):
         super().__init__(color, anchor)
-        self._text_string = text_string
+        self.text = text_string
         # These parameters are common across all pgzanimation so defined here
         self._pos = [*pos]
         self._angle = angle
@@ -53,4 +54,4 @@ class AnimText(PgzAnimation):
         self._angle=0
 
     def draw(self):
-        ptext.draw(self._text_string, self._pos, angle=self._angle, color=self._color, surf=self._surface, anchor=self._anchor, **self.kwargs)
+        ptext.draw(self.text, self._pos, angle=self._angle, color=self._color, surf=self._surface, anchor=self._anchor, **self.kwargs)
