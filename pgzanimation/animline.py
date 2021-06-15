@@ -32,6 +32,10 @@ class AnimLine(PgzAnimation):
         self.move_start_pos = self._pos
         self.rotate_start_angle = self._angle
         self.scale_start = self._scale
+        
+        # reveal is a percentage - how much is currently shown of the
+        # line. This is implemented in draw after other transitions
+        self.reveal = 100
 
         # polygon with transformation - start at 0 rotation
         self._transform()
@@ -201,15 +205,37 @@ class AnimLine(PgzAnimation):
 
     def draw(self):
         if self.hide: return
+        line_start = self._transform_start
+        line_end = self._transform_end
+        # if reveal not 100% then change end to reflect how much is shown
+        if (self.reveal < 100):
+            length = math.sqrt((line_end[0]-line_start[0])**2 + (line_end[1]-line_start[1])**2)
+            # get angle 
+            # special case - if vertical then will result in divide by 0
+            # so instead use 90 degrees - as radians
+            if (line_end[0] == line_start[0]):
+                angle = math.radians(90) # 
+            else:
+                angle = math.atan((line_end[1]-line_start[1])/(line_end[0]-line_start[0]))
+            # work out length of line - minimum 1 pixel
+            reveal_length = length * self.reveal / 100
+            if reveal_length < 1:
+                reveal_length = 1
+            line_end = [
+                line_start[0] + (math.cos(angle) * reveal_length),
+                line_start[1] + (math.sin(angle) * reveal_length)
+                ]
         if (self.style == "solid"):
-            pygame.draw.line(self._surface, self._color, self._transform_start, self._transform_end, self._width)
+            pygame.draw.line(self._surface, self._color, line_start, line_end, self._width)
         elif (self.style == "dashed"):
-            self._draw_dashed()
+            self._draw_dashed(line_start, line_end)
                 
 
-    def _draw_dashed(self):
-        start = self._transform_start
-        end = self._transform_end
+    # Draw dashed line - note ends with a non filled section, so will be slightly shorter than actual request
+    # takes start and end as parameter to allow partial hidden line (reveal)
+    def _draw_dashed(self, line_start, line_end):
+        start = line_start
+        end = line_end
         # distance in pixels along line (hypotenuse of RH triangle)
         length = math.sqrt((end[0]-start[0])**2 + (end[1]-start[1])**2)
         # get angle 
@@ -222,7 +248,7 @@ class AnimLine(PgzAnimation):
         spacing_both = self.spacing[0] + self.spacing[1]
         
         num_sections = round(length / (self.spacing[0]+self.spacing[1]))
-        for i in range (0, num_sections):
+        for i in range (0, num_sections+1):
             # start is distance * preceding sections lengths 
             # then use cos / sin rules to get dx,dy
             section_start = [
@@ -235,8 +261,17 @@ class AnimLine(PgzAnimation):
                 ]
             # draw first part filled
             pygame.draw.line(self._surface, self._color, section_start, section_end, self._width)
-            
         
+    # draw the line a little at a time
+    # implemented in the draw method
+    # reveal will override hide (on start) - so you can hide first and then reveal
+    def reveal_tween (self, start, end, current):
+        if (current < start or current > end):
+            return
+        if (current == start):
+            self.hide = False
+        # convert frame position to percentage to display
+        self.reveal = ((current-start) / (end-start)) * 100
         
 
 
