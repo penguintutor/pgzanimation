@@ -1,8 +1,7 @@
 import pygame
 import pgzero.screen
 # import local ptext as that supports more granular rotation
-#from pgzero import ptext
-from . import ptext
+from pgzero import ptext
 from .pgzanimation import PgzAnimation
 from .animtext import AnimText
 

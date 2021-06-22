@@ -1,7 +1,6 @@
 import pygame
-# import local ptext as that supports more granular rotation
-#from pgzero import ptext
-from . import ptext
+# import local ptext as that supports more granular rotation override resolution
+from pgzero import ptext
 from pgzero import loaders
 from .pgzanimation import PgzAnimation
 
@@ -19,11 +18,16 @@ class AnimText(PgzAnimation):
         # Text specific fields are stored in kwargs
         self.kwargs = kwargs
         # These are the mandatory defaults
-        if not 'fontsize' in self.kwargs: kwargs['fontsize'] = 40
+        if not 'fontsize' in self.kwargs:
+            kwargs['fontsize'] = 40
 
         self.move_start_pos = self._pos
         self.rotate_start_angle = self._angle
         self.fontsize_start = self.kwargs['fontsize']
+        # If fontname specified then load it
+        if 'fontname' in self.kwargs:
+            self._load_font (self.kwargs['fontname'])
+
 
     @property
     def fontsize(self):
@@ -53,5 +57,13 @@ class AnimText(PgzAnimation):
         self._anconfsTestZuritestItchor=(0,0)
         self._angle=0
 
+    def _load_font (self, fontname):
+        font = loaders.getfont(fontname)
+
     def draw(self):
         ptext.draw(self.text, self._pos, angle=self._angle, color=self._color, surf=self._surface, anchor=self._anchor, **self.kwargs)
+
+# override ptext loader to use pgzero loader
+ptext.getfont = loaders.getfont
+# override resolution for text rotation
+ptext.ANGLE_RESOLUTION_DEGREES = 1
