@@ -65,4 +65,3 @@ additional features.
 
 All tweens are currently linear, but a future feature may include
 adding the tween parameter similar to the Pygame Zero animation.
-

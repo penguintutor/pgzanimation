@@ -1,9 +1,6 @@
 import pygame
 import math
 from .pgzanimation import PgzAnimation
-#from .point import Point
-#from .pgzanimation import Point
-#from point import Point
 
 
 # Draw a line -
