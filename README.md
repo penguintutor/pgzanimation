@@ -55,7 +55,7 @@ Animation output files are saved as png files. These can be converted to an
 MP4 animation using the below command line (Linux system with ffmpeg
 installed).
 
-ffmpeg -framerate 25 -i animation-%04d.png -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p output.mp4
+ffmpeg -framerate 25 -i animation-%05d.png -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p output.mp4
 
 
 ## Future plans

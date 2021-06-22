@@ -18,7 +18,11 @@ convert logo: -fuzz 25% -fill none -draw "matte 0,0 floodfill" -channel alpha -b
 
 ## In progress
 
-For slide bullets - determine how to handle transition vs display time
+Easier layout for creating animations
+
+## Bugs to fix
+
+Frame numbering for saving (skip first frame)
 
 ## Testing
 Lots more testing is needed

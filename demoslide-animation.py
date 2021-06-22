@@ -24,33 +24,32 @@ pause = False
 
 
 bullets1 = [
-    "Bullet 1",
-    "Bullet 2",
-    "Bullet 3"
-    ]
-bullets1_timings = [
-    (119, 186, 254),
-    (255, 322, 390),
-    (391, 458, 526)
+    "Designed for programmers",
+    "Don't need to be a programmer",
+    "Makes repetition easy",
+    "Everything is an object"
     ]
 shapes = []
 
 slides = [
-    SlideBullets ((WIDTH,HEIGHT), "Slide Title", bullets1, bulletpause=False, bullettransition="slidefrombottom")
+    SlideBullets ((WIDTH,HEIGHT), "PGZAnimation", bullets1, bulletpause=True, bullettransition="slidefrombottom")
     ]
-
+background_color = (255,255,255)
+background_image = "background1"
 
 # Add any pauses to this
 # Pauses can also result from certain animations (eg. after each bullet)
 pause_frames = []
 
 slides[0].show_slide(0, 600)
-#slides[0].animate_slide(50,600)
-slides[0].animate_slide(50,600,bullets1_timings)
+slides[0].animate_slide(50,600)
+#slides[0].animate_slide(50,600,bullets1_timings)
 
 def draw():
     screen.clear()
-    screen.fill((255,255,255))
+    screen.fill(background_color)
+    if (background_image != ""):
+        screen.blit(background_image, (0,0))
 
     for this_shape in shapes:
         this_shape.draw()

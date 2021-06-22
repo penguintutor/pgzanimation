@@ -35,8 +35,8 @@ shapes = {
     "leftbat": AnimFilledRect (Rect(leftbat_x, HEIGHT/2, 10, 40), (255,255,255), anchor=("right","center")),
     "rightbat": AnimFilledRect (Rect(rightbat_x, HEIGHT/2, 10, 40), (255,255,255), anchor=("left","center")),
     "ball": AnimFilledCircle ((400, 300), 5, (255,255,255)),
-    "leftscore": AnimText ("00", (100,50), (255,255,255), fontname="/home/stewart/OneDrive/files/pgzanimation/fonts/computer_speak.ttf"),
-    "rightscore": AnimText ("00", (WIDTH-100,50), (255,255,255)),
+    "leftscore": AnimText ("00", (100,50), (255,255,255), fontname="computerspeak"),
+    "rightscore": AnimText ("00", (WIDTH-150,50), (255,255,255), fontname="computerspeak"),
     "net": AnimLine ((WIDTH/2,50), (WIDTH/2,HEIGHT-50), (255,255,255), style="dashed", spacing=[5,10])
     }
 
@@ -100,7 +100,7 @@ def on_key_up (key, mod):
     if (key == keys.SPACE or key == keys.P):
         pause = not pause
 
-# Handle mouse up (to toggle pause)
+# Handle mouse up (to remove pause)
 def on_mouse_up (pos, button):
     global pause
-    pause = not pause
+    pause = False
