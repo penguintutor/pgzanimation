@@ -31,9 +31,7 @@ bullets1 = [
     ]
 shapes = []
 
-slides = [
-    SlideBullets ((WIDTH,HEIGHT), "PGZAnimation", bullets1, bulletpause=True, bullettransition="slidefrombottom")
-    ]
+
 background_color = (255,255,255)
 background_image = "background1"
 
@@ -65,7 +63,7 @@ def update():
             pygame.quit()
             sys.exit()
         return
-        # Are we currently paused
+    # Are we currently paused
     if (pause == True):
         if (SAVE_PAUSED):
             save_frame += 1
