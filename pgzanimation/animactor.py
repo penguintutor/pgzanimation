@@ -5,10 +5,10 @@ from .pgzanimation import PgzAnimation
 class AnimActor(PgzAnimation):
 
     # has fixed mandatory fields then kwargs
-    def __init__(self, image, pos=(0,0), anchor=("center","center"),  **kwargs):
+    def __init__(self, image, pos=(0,0), anchor=("center","center"), hide=False, **kwargs):
         # Super is called from PgzAnimation
         # color is required parameter, but not used - set to white
-        super().__init__((255,255,255), anchor)
+        super().__init__((255,255,255), anchor, hide=hide)
         self.image = image
         # These parameters are common across pgzanimation so defined here
         self._pos = pos
@@ -25,6 +25,8 @@ class AnimActor(PgzAnimation):
 
 
     def draw(self):
+        if (self.hide == True):
+            return
         self.actor.draw()
 
 

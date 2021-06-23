@@ -284,15 +284,4 @@ class AnimLine(PgzAnimation):
         self.move_rel ((dx, dy))
 
 
-    # Print test with information about the shape
-    # Used for debugging
-    #def print_info (self):
-    #    print ("Shape: Line")
-    #    print ("Points: "+str(self._points))
-    #    print ("Anchor: "+str(self._anchor))
-    #    print ("Position: "+str(self._pos))
-    #    print ("Rot Points: "+str(self._transform_start)+" "+str(self._transform_end))
 
-
-    def update(self):
-        pass

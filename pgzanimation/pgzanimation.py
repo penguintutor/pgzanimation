@@ -11,12 +11,12 @@ import math
 class PgzAnimation():
 
     # start from top left and goes width across and height down
-    def __init__(self, color, anchor=('center', 'center')):
+    def __init__(self, color, anchor=('center', 'center'), hide=False):
         self._color = color
 
         # angle in degrees
         self._angle = 0
-        self.hide = False
+        self.hide = hide
         self._anchor = [*anchor]
 
 
@@ -74,6 +74,15 @@ class PgzAnimation():
     # returns size of surface (screen size)
     def get_screen_size(self):
         return (self._surface.get_size())
+        
+    # show and end_show are same as calling hide, but you need to give a start time of when to start showing or end showing the object
+    def show (self, start, current):
+        if (current == start):
+            self.hide = False
+            
+    def end_show (self, end, current):
+        if (current == end):
+            self.hide = True
 
 
     # rotate to an absolute from current position
