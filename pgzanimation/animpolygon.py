@@ -8,12 +8,12 @@ from .pgzanimation import PgzAnimation
 # Draw a filled polygon based around points
 class AnimFilledPolygon(PgzAnimation):
 
-    def __init__(self, points, color, anchor=('center', 'center')):
+    def __init__(self, points, color, anchor=('center', 'center'), scale=[1,1]):
         super().__init__(color, anchor)
         self._points = [*points] # convert from tuple to list
 
         # create with a scale of 1 update later if required
-        self._scale = [1,1]
+        self._scale = [*scale]
 
         # set pos based on anchor position
         self._pos = [0,0]

@@ -11,11 +11,11 @@ import math
 class PgzAnimation():
 
     # start from top left and goes width across and height down
-    def __init__(self, color, anchor=('center', 'center'), hide=False):
+    def __init__(self, color, anchor=('center', 'center'), hide=False, angle=0):
         self._color = color
 
         # angle in degrees
-        self._angle = 0
+        self._angle = angle
         self.hide = hide
         self._anchor = [*anchor]
 
@@ -37,9 +37,8 @@ class PgzAnimation():
     def angle(self):
         return self._angle
 
-    # angle should be between -359 and +359
-    # if this has been changed slightly then correct
-    # If outside that range then add / subtract 360 - attempt to fix
+    # Angle should be in degrees
+    # Angle increases in ccw direction (implemented in subclass)
     @angle.setter
     def angle(self, new_value):
         new_value %= 360
@@ -74,34 +73,39 @@ class PgzAnimation():
     # returns size of surface (screen size)
     def get_screen_size(self):
         return (self._surface.get_size())
-        
+
     # show and end_show are same as calling hide, but you need to give a start time of when to start showing or end showing the object
     def show (self, start, current):
         if (current == start):
             self.hide = False
-            
+
     def end_show (self, end, current):
         if (current == end):
             self.hide = True
 
 
     # rotate to an absolute from current position
-    def rotate_tween (self, start, end, current, angle):
+    # direction can be CCW / left (counter clock wise) or CW / right (Clockwise)
+    def rotate_tween (self, start, end, current, angle, direction="CCW"):
         if (current < start or current > end):
             return
         if (current == start):
             self.rotate_start_angle = self._angle
         d_angle = (angle - self.rotate_start_angle) / (end-start)
-        new_angle = self.rotate_start_angle + d_angle * (current-start)
+        if (direction == "CW" or direction == "right"):
+            d_angle *= -1
+        new_angle = self.rotate_start_angle + (d_angle * (current-start))
         self.rotate(new_angle)
 
     # rotate a relative amount
-    def rotate_rel_tween (self, start, end, current, angle):
+    def rotate_rel_tween (self, start, end, current, angle, direction="CCW"):
         if (current < start or current > end):
             return
         if (current == start):
             self.rotate_start_angle = self._angle
-        rel_angle = (angle - rotate_start_angle) / (end-start)
+        rel_angle = (angle) / (end-start)
+        if (direction == "CW" or direction == "right"):
+            rel_angle *= -1
         self.rotate(self._angle+rel_angle)
 
     # tweened movement to absolute position
@@ -153,9 +157,4 @@ class PgzAnimation():
     # it is normally only used by slides
     def update(self, current_frame=-1):
         return False
-
-# get size from surface
-        self._surface = pygame.display.get_surface()
-        self._size = self._surface.get_size()
-
-        print ("Surface size {} {}".format(self._size[0], self._size[1]))
+        

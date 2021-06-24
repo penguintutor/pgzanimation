@@ -5,10 +5,10 @@ from .pgzanimation import PgzAnimation
 class AnimActor(PgzAnimation):
 
     # has fixed mandatory fields then kwargs
-    def __init__(self, image, pos=(0,0), anchor=("center","center"), hide=False, **kwargs):
+    def __init__(self, image, pos=(0,0), anchor=("center","center"), hide=False, angle=0, **kwargs):
         # Super is called from PgzAnimation
         # color is required parameter, but not used - set to white
-        super().__init__((255,255,255), anchor, hide=hide)
+        super().__init__((255,255,255), anchor, hide=hide, angle=angle)
         self.image = image
         # These parameters are common across pgzanimation so defined here
         self._pos = pos
@@ -21,6 +21,10 @@ class AnimActor(PgzAnimation):
         self.rotate_start_angle = self._angle
 
         self.actor = Actor(image, self._pos, actor=self._anchor, **self.kwargs)
+        # if initial angle is not 0 then rotate now
+        if self._angle != 0:
+            self.rotate(self._angle)
+
 
 
 
@@ -44,4 +48,3 @@ class AnimActor(PgzAnimation):
         self.actor.anchor=(0,0)
         self._angle=0
         self.actor.angle=0
-

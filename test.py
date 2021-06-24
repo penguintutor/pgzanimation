@@ -7,6 +7,44 @@
 import unittest
 from pgzanimation import *
 
+class TestVectors(unittest.TestCase):
+    def test_dir_vector_1 (self):
+        test_vector = [1,0]
+        vector = get_dir_vector(0)
+        self.assertAlmostEqual(vector[0], test_vector[0])
+        self.assertAlmostEqual(vector[1], test_vector[1])
+        
+        
+    def test_dir_vector_2 (self):
+        test_vector = [0,-1]
+        vector = get_dir_vector(90)
+        self.assertAlmostEqual(vector[0], test_vector[0])
+        self.assertAlmostEqual(vector[1], test_vector[1])
+
+    def test_dir_vector_3 (self):
+        test_vector = [-1,0]
+        vector = get_dir_vector(180)
+        self.assertAlmostEqual(vector[0], test_vector[0])
+        self.assertAlmostEqual(vector[1], test_vector[1])
+
+    def test_dir_vector_4 (self):
+        test_vector = [0,1]
+        vector = get_dir_vector(-90)
+        self.assertAlmostEqual(vector[0], test_vector[0])
+        self.assertAlmostEqual(vector[1], test_vector[1])
+        
+    def test_dir_vector_4 (self):
+        test_vector = [0,1]
+        vector = get_dir_vector(270)
+        self.assertAlmostEqual(vector[0], test_vector[0])
+        self.assertAlmostEqual(vector[1], test_vector[1])
+        
+    def test_dir_vector_4 (self):
+        test_vector = [0.70710678,-0.70710678]
+        vector = get_dir_vector(45)
+        self.assertAlmostEqual(vector[0], test_vector[0])
+        self.assertAlmostEqual(vector[1], test_vector[1])
+
 class TestPolygon(unittest.TestCase):
     def test_create(self):
         polygon1 = AnimPolygon (((100, 150), (160, 150), (160,250), (100,250)), (255,0,255))
