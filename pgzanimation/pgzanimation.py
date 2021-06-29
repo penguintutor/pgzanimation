@@ -154,7 +154,8 @@ class PgzAnimation():
     # This is not used on all classes, but allows consistancy with slides
     # which do need the current frame
     # return value is whether to pause - normally that's just false
-    # it is normally only used by slides
+    # it is used by slides and others that update non tween related
+    # eg. dashed line - this will still be updated even if animation paused
     def update(self, current_frame=-1):
         return False
         

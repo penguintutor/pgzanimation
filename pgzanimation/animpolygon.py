@@ -8,8 +8,8 @@ from .pgzanimation import PgzAnimation
 # Draw a filled polygon based around points
 class AnimFilledPolygon(PgzAnimation):
 
-    def __init__(self, points, color, anchor=('center', 'center'), scale=[1,1]):
-        super().__init__(color, anchor)
+    def __init__(self, points, color, anchor=('center', 'center'), hide=False, scale=[1,1]):
+        super().__init__(color, anchor, hide=hide)
         self._points = [*points] # convert from tuple to list
 
         # create with a scale of 1 update later if required
@@ -220,8 +220,8 @@ class AnimFilledPolygon(PgzAnimation):
 # Setting width to 0 is same as filled polygon - setting less than 0 does not display
 class AnimPolygon (AnimFilledPolygon):
 
-    def __init__(self, points, color, anchor=('center', 'center'), width=1):
-        super().__init__(points, color, anchor)
+    def __init__(self, points, color, anchor=('center', 'center'), hide=False, width=1):
+        super().__init__(points, color, anchor, hide=hide)
         self.width = width
 
     def draw(self):
