@@ -95,6 +95,15 @@ class TestPolygon(unittest.TestCase):
         polygon1.scale = (2,2)
         self.assertEqual(polygon1._points, [(100, 100), (200, 100), (200, 250), (100, 250)])
         self.assertEqual(polygon1.points, [(50, 25), (250, 25), (250, 325), (50, 325)])
+        
+class TestDashedLine(unittest.TestCase):
+    def test_dash_1 (self):
+        # Horizontal
+        dash_line1 = AnimLine((100,100), (200,100), (128,128,128), spacing=[10,5], style="dashed")
+        #dash_line1.dashoffset += 6
+        segments = dash_line1._line_to_segments((100,100), (200,100))
+        self.assertEqual(segments, [[[100.0, 100.0], [110.0, 100.0]], [[115.0, 100.0], [125.0, 100.0]], [[130.0, 100.0], [140.0, 100.0]], [[145.0, 100.0], [155.0, 100.0]], [[160.0, 100.0], [170.0, 100.0]], [[175.0, 100.0], [185.0, 100.0]], [[190.0, 100.0], [200.0, 100.0]]])
+        
 
 
 if __name__ == '__main__':
