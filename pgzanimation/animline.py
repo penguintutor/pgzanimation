@@ -8,9 +8,10 @@ from .pgzanimation import PgzAnimation
 # offset moves start point that number of pixels (needs to be shorter
 # than one dash)
 # dashanimate is a number of how far to animate the line
+# animateenable False = pause animation (if dashanimate) 
 class AnimLine(PgzAnimation):
 
-    def __init__(self, start, end, color, anchor=('center', 'center'), width=1, style="solid", spacing=[10,5], dashoffset=0, dashanimate=0):
+    def __init__(self, start, end, color, anchor=('center', 'center'), width=1, style="solid", spacing=[10,10], dashoffset=0, dashanimate=0, animateenable=True):
         super().__init__(color, anchor)
         self._start = [*start]
         self._end = [*end]
@@ -18,6 +19,7 @@ class AnimLine(PgzAnimation):
         self._dashoffset = dashoffset
         self._currentoffset = dashoffset
         self.dashanimate = dashanimate
+        self.animateenable = animateenable
 
         self.style = style
         self.spacing = spacing
@@ -226,6 +228,7 @@ class AnimLine(PgzAnimation):
         if self.hide: return
         line_start = self._transform_start
         line_end = self._transform_end
+        
         # if reveal not 100% then change end to reflect how much is shown
         if (self.reveal < 100):
             length = math.sqrt((line_end[0]-line_start[0])**2 + (line_end[1]-line_start[1])**2)
@@ -255,6 +258,8 @@ class AnimLine(PgzAnimation):
 
     def _draw_dashed(self, line_start, line_end):
         segments = self._line_to_segments (line_start, line_end)
+        #print ("Segments")
+        #print (segments)
         for this_segment in segments:
             # draw first part filled
             pygame.draw.line(self._surface, self._color, this_segment[0], this_segment[1], self._width)
@@ -265,6 +270,16 @@ class AnimLine(PgzAnimation):
     def _line_to_segments(self, line_start, line_end):      
         start = line_start
         end = line_end
+        
+        # is direction positive or negative (if negative then subtract instead of add)
+        x_dir = 1
+        y_dir = 1
+        
+        if (line_start[0] > line_end[0]):
+            x_dir = -1
+        if (line_start[1] > line_end[1]):
+            y_dir = -1
+        
         
         # list of start end pairs each of which has an x and y value
         # = [[[stx0,st0],[endx0,endy0]], [[stx1,st1],[endx1,endy1]]]
@@ -288,8 +303,8 @@ class AnimLine(PgzAnimation):
         if (self._currentoffset > self.spacing[1]):
             section_start = line_start
             section_end = [
-                start[0] + (math.cos(angle) * (self._currentoffset - self.spacing[1])),
-                start[1] + (math.sin(angle) * (self._currentoffset - self.spacing[1]))
+                start[0] + x_dir * (math.cos(angle) * (self._currentoffset - self.spacing[1])),
+                start[1] + y_dir *  (math.sin(angle) * (self._currentoffset - self.spacing[1]))
                 ]
             segments.append ([section_start, section_end])
         
@@ -297,12 +312,12 @@ class AnimLine(PgzAnimation):
             # start is distance * preceding sections lengths
             # then use cos / sin rules to get dx,dy
             section_start = [
-                start[0] + (math.cos(angle) * (i * spacing_both + self._currentoffset)),
-                start[1] + (math.sin(angle) * (i * spacing_both + self._currentoffset)),
+                start[0] + x_dir * (math.cos(angle) * (i * spacing_both + self._currentoffset)),
+                start[1] + y_dir * (math.sin(angle) * (i * spacing_both + self._currentoffset)),
                 ]
             section_end = [
-                start[0] + (math.cos(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0])),
-                start[1] + (math.sin(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0]))
+                start[0] + x_dir * (math.cos(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0])),
+                start[1] + y_dir * (math.sin(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0]))
                 ]
             # Add to list
             segments.append ([section_start, section_end])
@@ -311,15 +326,15 @@ class AnimLine(PgzAnimation):
         i+=1
         if (((i * spacing_both) + self._currentoffset)<length):
             section_start = [
-                start[0] + (math.cos(angle) * (i * spacing_both + self._currentoffset)),
-                start[1] + (math.sin(angle) * (i * spacing_both + self._currentoffset)),
+                start[0] + x_dir *  (math.cos(angle) * (i * spacing_both + self._currentoffset)),
+                start[1] + y_dir *  (math.sin(angle) * (i * spacing_both + self._currentoffset)),
                 ]
             if ((((i * spacing_both) + self._currentoffset+self.spacing[0])) > length):
                 section_end = [*line_end]
             else:
                 section_end = [
-                    start[0] + (math.cos(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0])),
-                    start[1] + (math.sin(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0]))
+                    start[0] + x_dir * (math.cos(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0])),
+                    start[1] + y_dir * (math.sin(angle) * ((i * spacing_both) + self._currentoffset+self.spacing[0]))
                     ]
             segments.append ([section_start, section_end])
         return segments    
@@ -347,8 +362,9 @@ class AnimLine(PgzAnimation):
         self.move_rel ((dx, dy))
         
     def update(self, frame=-1):
-        self._currentoffset += self.dashanimate
-        if (self._currentoffset > self.spacing[0]+self.spacing[1]):
-            self._currentoffset %= self.spacing[0]+self.spacing[1]
+        if self.animateenable:
+            self._currentoffset += self.dashanimate
+            if (self._currentoffset > self.spacing[0]+self.spacing[1]):
+                self._currentoffset %= self.spacing[0]+self.spacing[1]
 
 

@@ -9,7 +9,7 @@ class AnimActor(PgzAnimation):
         # Super is called from PgzAnimation
         # color is required parameter, but not used - set to white
         super().__init__((255,255,255), anchor, hide=hide, angle=angle)
-        self.image = image
+        self.image = image                              
         # These parameters are common across pgzanimation so defined here
         self._pos = pos
 

@@ -1,4 +1,4 @@
-from pgzanimation import Slide, AnimLine
+from pgzanimation import Slide, AnimLine, AnimMarqueeLine, AnimActor
 import pygame, sys
 
 WIDTH = 1280
@@ -25,6 +25,12 @@ pause = False
 background_color = (255,255,255)
 background_image = ""
 
+# Add own variables for convenience
+top_left = (335,250)
+top_right = (935,250)
+bottom_right = (935,600)
+bottom_left = (335,600)
+
 slides = [
     Slide((WIDTH,HEIGHT), TITLE)
     ]
@@ -39,13 +45,17 @@ slides = [
 # swap which is displayed as a way of positioning in the stack
 shape_groups = {
     'wires': {
-        'top-start': AnimLine ((300,300), (900,300), (128,128,128), width=4)
-        },
-    'anim-wires': {
-        'top-start': AnimLine ((300,300), (900,300), (0,0,0), style="dashed", width=4, spacing=[5,10], dashanimate=0.2)
+        'left': AnimMarqueeLine (bottom_left, top_left, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10]),
+        'top-start': AnimMarqueeLine (top_left, top_right, (0,0,0), (128,128,128), width=4),
+        'right': AnimMarqueeLine (top_right, bottom_right, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10]),
+        'bottom': AnimMarqueeLine (bottom_right, bottom_left, (0,0,0), (128,128,128), width=4),
         }
     }
 shapes = {
+    'battery' : AnimActor ("battery", (340,425)),
+    'light' : AnimActor ("light-off", (935,425)),
+    'switchshape' : AnimActor ("switchnodes", (650, 250)),
+    'switchlevel' : AnimLine ((615,246), (687,246), (0,0,0), anchor=("left","top"), width=4)
     }
 
 # Add any pauses to this
@@ -54,10 +64,21 @@ pause_frames = []
 
 # key frames (can just use number if preferred, but allows labels)
 kf = {
+    'start': 0,
+    'start-close': 200,
+    'close': 205,
+    'start-open': 400,
+    'close': 405
+    
     }
 
 # Show slide for entire animation
 slides[0].show_slide(0, FRAMES)
+
+# Place your animations here
+def animate():
+    pass
+
 
 
 def draw():
@@ -87,9 +108,6 @@ def update():
         this_shape.update()
 
 
-# Place your animations here
-def animate():
-    pass
 
 def controls():
     global frame, save_frame, pause
