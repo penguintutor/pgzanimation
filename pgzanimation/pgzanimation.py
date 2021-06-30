@@ -92,7 +92,8 @@ class PgzAnimation():
         if (current == start):
             self.rotate_start_angle = self._angle
         d_angle = (angle - self.rotate_start_angle) / (end-start)
-        if (direction == "CW" or direction == "right"):
+        #print ("Rotate from {} to {} - delta {}".format(self._angle, angle, d_angle))
+        if ((direction == "CW" or direction == "right") and d_angle > 0):
             d_angle *= -1
         new_angle = self.rotate_start_angle + (d_angle * (current-start))
         self.rotate(new_angle)

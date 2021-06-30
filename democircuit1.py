@@ -45,10 +45,10 @@ slides = [
 # swap which is displayed as a way of positioning in the stack
 shape_groups = {
     'wires': {
-        'left': AnimMarqueeLine (bottom_left, top_left, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10]),
-        'top-start': AnimMarqueeLine (top_left, top_right, (0,0,0), (128,128,128), width=4),
-        'right': AnimMarqueeLine (top_right, bottom_right, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10]),
-        'bottom': AnimMarqueeLine (bottom_right, bottom_left, (0,0,0), (128,128,128), width=4),
+        'left': AnimMarqueeLine (bottom_left, top_left, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10], animatedisplay=False),
+        'top-start': AnimMarqueeLine (top_left, top_right, (0,0,0), (128,128,128), width=4, animatedisplay=False),
+        'right': AnimMarqueeLine (top_right, bottom_right, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10], animatedisplay=False),
+        'bottom': AnimMarqueeLine (bottom_right, bottom_left, (0,0,0), (128,128,128), width=4, animatedisplay=False),
         }
     }
 shapes = {
@@ -68,18 +68,26 @@ kf = {
     'start-close': 200,
     'close': 205,
     'start-open': 400,
-    'close': 405
-    
+    'open': 405 
     }
 
+# Set any initial states
 # Show slide for entire animation
 slides[0].show_slide(0, FRAMES)
+shapes['switchlevel'].angle = 30
 
 # Place your animations here
 def animate():
-    pass
-
-
+    shapes['switchlevel'].rotate_tween (kf['start-close'], kf['close'], frame, 0, direction="CW")
+    if (frame == kf['close']):
+        for this_group in shape_groups:
+            for this_shape in shape_groups[this_group].values():
+                this_shape.animatedisplay=True
+    shapes['switchlevel'].rotate_tween (kf['start-open'], kf['open'], frame, 30, direction="CCW")
+    if (frame == kf['start-open']):
+        for this_group in shape_groups:
+            for this_shape in shape_groups[this_group].values():
+                this_shape.animatedisplay=False
 
 def draw():
     screen.clear()

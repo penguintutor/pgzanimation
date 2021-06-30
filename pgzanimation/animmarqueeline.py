@@ -11,15 +11,18 @@ from .animline import AnimLine
 # Is a single object, but uses a line and a dashed line
 # Needs two colours - first color is of the wire, the second is for the "dash"
 # style relates to the dash part
+# animateenable stops the animation, but still shows the dashed line
+# animatedisplay can be used to hide the animateline, but not the solid line
 class AnimMarqueeLine(PgzAnimation):
 
-    def __init__(self, start, end, color, dashcolor, anchor=('center', 'center'), width=1, style="dashed", spacing=[10,10], dashoffset=0, dashanimate=0.4, animateenable=True):
+    def __init__(self, start, end, color, dashcolor, anchor=('center', 'center'), width=1, style="dashed", spacing=[10,10], dashoffset=0, dashanimate=0.4, animateenable=True, animatedisplay=True):
         super().__init__(color, anchor)
         self._width = width
         self._dashoffset = dashoffset
         self._currentoffset = dashoffset
         self.dashanimate = dashanimate
         self._animateenable = animateenable
+        self.animatedisplay = animatedisplay
 
         self.style = style
         self.spacing = spacing
@@ -135,7 +138,8 @@ class AnimMarqueeLine(PgzAnimation):
 
     def draw(self):
         self.primaryline.draw()
-        self.animline.draw()
+        if self.animatedisplay:
+            self.animline.draw()
 
 
     # draw the line a little at a time
@@ -152,7 +156,7 @@ class AnimMarqueeLine(PgzAnimation):
         self.animline.move(newpos)
         
     def update(self, frame=-1):
-        if (self._animateenable):
+        if (self._animateenable and self.animatedisplay):
             self.primaryline.update(frame)
             self.animline.update(frame)
 
