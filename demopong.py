@@ -3,7 +3,7 @@ import pygame, sys
 
 WIDTH = 800
 HEIGHT = 600
-FRAMES = 700
+FRAMES = 1300
 TITLE = "Pong Demo"
 
 # Save options
@@ -30,7 +30,7 @@ leftbat_x = 50
 rightbat_x = WIDTH-50
 # timings
 time_start = 10
-time_bat = [50, 150, 250, 350, 450]
+time_bat = [50, 150, 250, 350, 450, 500, 600, 700, 800, 900, 1000, 1100]
 
 shapes = {
     "leftbat": AnimFilledRect (Rect(leftbat_x, HEIGHT/2, 10, 40), (255,255,255), anchor=("right","center")),
@@ -79,6 +79,25 @@ def update():
     shapes['leftbat'].move_tween(time_bat[3]+30, time_bat[4], frame, (leftbat_x, 160))
     if (frame == time_bat[4]):
         shapes['rightscore'].text = "01"
+        shapes['ball'].pos = shapes['leftbat'].pos 
+    shapes['ball'].move_tween(time_bat[4], time_bat[5], frame, (leftbat_x, 150))
+    shapes['leftbat'].move_tween(time_bat[4]+10, time_bat[5], frame, (leftbat_x, 150))
+    shapes['ball'].move_tween(time_bat[5], time_bat[6], frame, (rightbat_x, 250))
+    shapes['rightbat'].move_tween(time_bat[5]+10, time_bat[6]-20, frame, (rightbat_x, 240))
+    shapes['ball'].move_tween(time_bat[6], time_bat[7], frame, (leftbat_x, 460))
+    shapes['leftbat'].move_tween(time_bat[6]+10, time_bat[7], frame, (leftbat_x, 462))
+    shapes['ball'].move_tween(time_bat[7], time_bat[8], frame, (WIDTH, 465))
+    shapes['rightbat'].move_tween(time_bat[7]+10, time_bat[8]-5, frame, (rightbat_x, 420))
+    if (frame == time_bat[8]):
+        shapes['leftscore'].text = "01"
+        shapes['ball'].pos = shapes['rightbat'].pos 
+    #shapes['rightbat'].move_tween(time_bat[8]+10, time_bat[9]-20, frame, (rightbat_x, 240))
+    shapes['ball'].move_tween(time_bat[9], time_bat[10], frame, (leftbat_x, 460))
+    shapes['leftbat'].move_tween(time_bat[9]+10, time_bat[10], frame, (leftbat_x, 462))
+    shapes['ball'].move_tween(time_bat[10], time_bat[11], frame, (WIDTH, 465))
+    shapes['rightbat'].move_tween(time_bat[10]+10, time_bat[11]-5, frame, (rightbat_x, 490))
+    if (frame == time_bat[11]):
+        shapes['leftscore'].text = "02"
 
 def controls():
     global frame, save_frame, pause
