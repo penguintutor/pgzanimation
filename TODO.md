@@ -20,6 +20,8 @@ convert logo: -fuzz 25% -fill none -draw "matte 0,0 floodfill" -channel alpha -b
 
 Easier layout for creating animations
 
+Update to PEP8 and PEP256
+
 ## Bugs to fix
 
 Frame numbering for saving (skip first frame)

@@ -46,10 +46,10 @@ slides = [
 # swap which is displayed as a way of positioning in the stack
 shape_groups = {
     'wires': {
-        'left': AnimMarqueeLine (bottom_left, top_left, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10], animatedisplay=False),
-        'top-start': AnimMarqueeLine (top_left, top_right, (0,0,0), (128,128,128), width=4, animatedisplay=False),
-        'right': AnimMarqueeLine (top_right, bottom_right, (0,0,0), (128,128,128), width=4, style="dashed", spacing=[10,10], animatedisplay=False),
-        'bottom': AnimMarqueeLine (bottom_right, bottom_left, (0,0,0), (128,128,128), width=4, animatedisplay=False),
+        'left': AnimMarqueeLine (bottom_left, top_left, (0,0,0), (200,200,200), width=4, animwidth=2, style="dashed", spacing=[10,10], animatedisplay=False),
+        'top-start': AnimMarqueeLine (top_left, top_right, (0,0,0), (200,200,200), width=4, animwidth=2, animatedisplay=False),
+        'right': AnimMarqueeLine (top_right, bottom_right, (0,0,0), (200,200,200), width=4, animwidth=2, style="dashed", spacing=[10,10], animatedisplay=False),
+        'bottom': AnimMarqueeLine (bottom_right, bottom_left, (0,0,0), (200,200,200), width=4, animwidth=2, animatedisplay=False),
         }
     }
 shapes = {

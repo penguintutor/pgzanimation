@@ -15,7 +15,7 @@ from .animline import AnimLine
 # animatedisplay can be used to hide the animateline, but not the solid line
 class AnimMarqueeLine(PgzAnimation):
 
-    def __init__(self, start, end, color, dashcolor, anchor=('center', 'center'), width=1, style="dashed", spacing=[10,10], dashoffset=0, dashanimate=0.4, animateenable=True, animatedisplay=True):
+    def __init__(self, start, end, color, dashcolor, anchor=('center', 'center'), width=1, animwidth=-1, style="dashed", spacing=[10,10], dashoffset=0, dashanimate=0.4, animateenable=True, animatedisplay=True):
         super().__init__(color, anchor)
         self._width = width
         self._dashoffset = dashoffset
@@ -23,6 +23,10 @@ class AnimMarqueeLine(PgzAnimation):
         self.dashanimate = dashanimate
         self._animateenable = animateenable
         self.animatedisplay = animatedisplay
+        
+        # if animwidth is -1 (default) then set to same as width
+        if (animwidth == -1):
+        	animwidth=width
 
         self.style = style
         self.spacing = spacing
@@ -33,7 +37,7 @@ class AnimMarqueeLine(PgzAnimation):
 
         # Create as two lines
         self.primaryline = AnimLine (start, end, color, width=width)
-        self.animline = AnimLine (start, end, dashcolor, style=style, width=width, spacing=spacing, dashanimate=dashanimate, dashoffset=dashoffset, animateenable=animateenable)
+        self.animline = AnimLine (start, end, dashcolor, style=style, width=animwidth, spacing=spacing, dashanimate=dashanimate, dashoffset=dashoffset, animateenable=animateenable)
 
 
     # Override most of the setters and getters to refer to primaryline / animline as appropriate
