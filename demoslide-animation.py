@@ -16,24 +16,29 @@ QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
 save = True
+save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
 frame=0
 save_frame=0
 pause = False
 
+background_color = (255,255,255)
+background_image = "background1"
 
-bullets1 = [
+bullets0 = [
     "Designed for programmers",
     "Don't need to be a programmer",
     "Makes repetition easy",
     "Everything is an object"
     ]
+
+slides = [
+    SlideBullets ((WIDTH,HEIGHT), "PGZAnimation", bullets0, bulletstartpos=(100,220), bulletpause=True, bullettransition="appear"),
+]
+
 shapes = []
 
-
-background_color = (255,255,255)
-background_image = "background1"
 
 # Add any pauses to this
 # Pauses can also result from certain animations (eg. after each bullet)
@@ -41,7 +46,7 @@ pause_frames = []
 
 slides[0].show_slide(0, 600)
 slides[0].animate_slide(50,600)
-#slides[0].animate_slide(50,600,bullets1_timings)
+
 
 def draw():
     screen.clear()
@@ -53,6 +58,14 @@ def draw():
         this_shape.draw()
     for this_slide in slides:
         this_slide.draw()
+        
+    # Save animation frame
+    if (save == True and ( pause == False or SAVE_PAUSED == True)):
+        pygame.image.save(screen.surface, save_files.format(save_frame))
+    # Anything below here is displayed on screen, but not included in saves
+    if SHOW_FRAME:
+        # frame is incremented at end - so display number of previous frame
+        screen.draw.text(str(frame-1), (20,20), color=(250, 50, 50), fontsize=60)
 
 
 def update():

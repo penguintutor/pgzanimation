@@ -10,12 +10,13 @@ TITLE = "Basic Electrical Circuit"
 # Continue to save frames when paused?
 SAVE_PAUSED = True
 # enable to show frame number on screen (not included in save)
-SHOW_FRAME = True
+SHOW_FRAME = False
 # Exit after last frame?
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
 save = True
+save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
 frame=0
@@ -102,6 +103,14 @@ def draw():
             this_shape.draw()
     for this_shape in shapes.values():
         this_shape.draw()
+        
+    # Save animation frame
+    if (save == True and ( pause == False or SAVE_PAUSED == True)):
+        pygame.image.save(screen.surface, save_files.format(save_frame))
+    # Anything below here is displayed on screen, but not included in saves
+    if SHOW_FRAME:
+        # frame is incremented at end - so display number of previous frame
+        screen.draw.text(str(frame-1), (20,20), color=(250, 50, 50), fontsize=60)
 
 def update():
     controls()
