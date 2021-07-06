@@ -7,7 +7,7 @@ import math
 
 
 class PgzAnimation():
-    """ PgzAnimation parent class for animation classes
+    """ PgzAnimation abstract parent class for animation classes
 
     All the animation classes should be subclassed from this.
     It provides basic functionality which is common across all

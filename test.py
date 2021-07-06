@@ -44,6 +44,16 @@ class TestVectors(unittest.TestCase):
         vector = get_dir_vector(45)
         self.assertAlmostEqual(vector[0], test_vector[0])
         self.assertAlmostEqual(vector[1], test_vector[1])
+        
+class TestActor(unittest.TestCase):
+    """ Test AnimActor class
+    
+    Unable to test through test.py as needs to be called by pgzrun.
+    Most of the operations are handled within the Pygame Zero Actor class
+    """
+    def test_create(self):
+        #actor1 = AnimActor("alien")
+        self.assertEqual(True, True)
 
 class TestPolygon(unittest.TestCase):
     def test_create(self):

@@ -8,6 +8,29 @@ This needs to be run from your own code in Pygame Zero
 using pgzrun.
 Import the relevant classes that you need from pgzanimation.
 
+** Standard animation classes
+*PGZAnimation       - Abstract parent class
+*AnimActor          - Sprite based animations
+*AnimLine           - Draw a straight line
+*AnimMarqueeLine    - Draw a straight line with dash / marching ants
+*AnimEllipse        - Create an ellipse
+*AnimFilledEllipse  - Filled ellipse
+*AnimCircle         - Create circles
+*AnimFilledCircle   - Filled circle
+*AnimPolygon        - Create polygon from list of points
+*AnimFilledPolygon  - Filled polygon
+*AnimRect           - Create rectangle from a rectangle object
+*AnimFilledRect     - Create a filled rectangle
+*AnimText           - Create text
+*AnimBullet         - Create bullet text
+
+** Slide based animations
+*Slide              - Default slide (simple title)
+*SlideBullets       - Slide with bullet text
+
+** Helper functions
+*dir_vector         - gets a direction vector from an angle
+
 For more details see http://www.penguintutor.com/pgzanimation
 """
 

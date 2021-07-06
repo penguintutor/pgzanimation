@@ -3,7 +3,7 @@ import pygame, sys
 
 WIDTH = 1280
 HEIGHT = 720
-FRAMES = 1000
+FRAMES = 50
 TITLE = "Basic Electrical Circuit"
 
 # Save options
@@ -24,7 +24,7 @@ save_frame=0
 pause = False
 
 background_color = (255,255,255)
-background_image = ""
+background_image = "electronics-background"
 
 # Add own variables for convenience
 top_left = (335,250)
@@ -38,18 +38,18 @@ slides = [
 
 # Can use shapes and/or shape_groups
 # shape groups are a dictionary of shape dictionaries
-# allows you to group items together to make changes to all simulataneously
-# often simpler to use shapes, but useful when you want to make changes to lots of objects
+# allows you to group items together to make changes to all simultaneously
+# often it is simpler to use shapes, but useful when you want to make changes to lots of objects
 # order is important for overlapping, shape_groups are written first (so get overwritten)
 # then shapes in order they appear in list
 # It's not possible to change order, but you can have multiple entries with the same image and
 # swap which is displayed as a way of positioning in the stack
 shape_groups = {
     'wires': {
-        'left': AnimMarqueeLine (bottom_left, top_left, (0,0,0), (200,200,200), width=4, animwidth=2, style="dashed", spacing=[10,10], animatedisplay=False),
-        'top-start': AnimMarqueeLine (top_left, top_right, (0,0,0), (200,200,200), width=4, animwidth=2, animatedisplay=False),
-        'right': AnimMarqueeLine (top_right, bottom_right, (0,0,0), (200,200,200), width=4, animwidth=2, style="dashed", spacing=[10,10], animatedisplay=False),
-        'bottom': AnimMarqueeLine (bottom_right, bottom_left, (0,0,0), (200,200,200), width=4, animwidth=2, animatedisplay=False),
+        'left': AnimMarqueeLine (bottom_left, top_left, (0,0,0), (200,200,200), width=4, animwidth=2, style="dashed", spacing=[10,10], animatedisplay=False, dashanimate=1),
+        'top-start': AnimMarqueeLine (top_left, top_right, (0,0,0), (200,200,200), width=4, animwidth=2, animatedisplay=False, dashanimate=1),
+        'right': AnimMarqueeLine (top_right, bottom_right, (0,0,0), (200,200,200), width=4, animwidth=2, style="dashed", spacing=[10,10], animatedisplay=False, dashanimate=1),
+        'bottom': AnimMarqueeLine (bottom_right, bottom_left, (0,0,0), (200,200,200), width=4, animwidth=2, animatedisplay=False, dashanimate=1),
         }
     }
 shapes = {
@@ -66,10 +66,10 @@ pause_frames = []
 # key frames (can just use number if preferred, but allows labels)
 kf = {
     'start': 0,
-    'start-close': 200,
-    'close': 205,
-    'start-open': 400,
-    'open': 405 
+    'start-close': 5,
+    'close': 10,
+    'start-open': 40,
+    'open': 45 
     }
 
 # Set any initial states
@@ -91,6 +91,8 @@ def animate():
                 this_shape.animatedisplay=False
 
 def draw():
+    if (frame >= FRAMES):
+        return
     screen.clear()
     screen.fill(background_color)
     if (background_image != ""):
