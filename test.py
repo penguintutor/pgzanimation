@@ -54,10 +54,32 @@ class TestActor(unittest.TestCase):
     def test_create(self):
         #actor1 = AnimActor("alien")
         self.assertEqual(True, True)
+        
+class TestLine(unittest.TestCase):
+    def test_create(self):
+        line1 = AnimLine((50, 50), (750, 650), (211, 233, 111))
+        self.assertEqual(line1.pos, [400, 350])
+        
+    def test_horizontal(self):
+        line1 = AnimLine((100, 100), (400, 100), (10, 10, 10))
+        self.assertEqual(line1.pos, [250, 100])
+
+    def test_vertical(self):
+        line1 = AnimLine((200, 0), (200, 1080), (255, 255, 255))
+        self.assertEqual(line1.pos, [200, 540])
+        
+    def test_negative(self):
+        line1 = AnimLine((-200, -200), (-100, -100), (23, 23, 23))
+        self.assertEqual(line1.pos, [-150, -150])
+        
+    def test_right_to_left(self):
+        line1 = AnimLine((800,600), (100, 100), (0, 0, 255))
+        self.assertEqual(line1.pos, [450, 350])
+                    
 
 class TestPolygon(unittest.TestCase):
     def test_create(self):
-        polygon1 = AnimPolygon (((100, 150), (160, 150), (160,250), (100,250)), (255,0,255))
+        polygon1 = AnimPolygon(((100, 150), (160, 150), (160,250), (100,250)), (255,0,255))
         self.assertEqual(polygon1.pos, [130,200])
 
     # rotate set angle

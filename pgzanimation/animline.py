@@ -358,6 +358,10 @@ class AnimLine(PgzAnimation):
                 ]
             segments.append([section_start, section_end])
 
+        # start with i = 0 - represents if 0 segments
+        # (ie. just the pre / post part)
+        # replaced by for loop if more than 0 segments
+        i = 0
         for i in range(0, num_sections):
             # start is distance * preceding sections lengths
             # then use cos / sin rules to get dx,dy
