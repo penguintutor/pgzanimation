@@ -8,8 +8,8 @@ from .pgzanimation import PgzAnimation
 class AnimText(PgzAnimation):
 
     # has fixed mandatory fields then kwargs
-    def __init__(self, text_string, pos, color="black", anchor=(0,0), angle=0,  **kwargs):
-        super().__init__(color, anchor)
+    def __init__(self, text_string, pos, color="black", anchor=(0,0), angle=0, hide=False,  **kwargs):
+        super().__init__(color, anchor, hide=hide)
         self.text = text_string
         # These parameters are common across all pgzanimation so defined here
         self._pos = [*pos]
@@ -61,6 +61,7 @@ class AnimText(PgzAnimation):
         font = loaders.getfont(fontname)
 
     def draw(self):
+        if (self.hide == True): return
         ptext.draw(self.text, self._pos, angle=self._angle, color=self._color, surf=self._surface, anchor=self._anchor, **self.kwargs)
 
 # override ptext loader to use pgzero loader
