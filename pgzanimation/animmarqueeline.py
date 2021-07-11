@@ -3,19 +3,45 @@ import math
 from .pgzanimation import PgzAnimation
 from .animline import AnimLine
 
-
-# Special implementation of line
-# Marquee / marching ant style line
-# Designed for circuit diagrams to create an animated "wire"
-# Also useful for highlighting a box (eg. selections)
-# Is a single object, but uses a line and a dashed line
-# Needs two colours - first color is of the wire, the second is for the "dash"
-# style relates to the dash part
-# animateenable stops the animation, but still shows the dashed line
-# animatedisplay can be used to hide the animateline, but not the solid line
 class AnimMarqueeLine(PgzAnimation):
+    """ AnimMarqueeLine - Special kind of line with marquee
 
-    def __init__(self, start, end, color, dashcolor, anchor=('center', 'center'), width=1, animwidth=-1, style="dashed", spacing=[10,10], dashoffset=0, dashanimate=0.4, animateenable=True, animatedisplay=True):
+    Marquee / marching ant style line
+    Designed for circuit diagrams to create an animated "wire"
+    Also useful for highlighting a box (eg. selections)
+    Is a single object, but uses a line and a dashed line
+    Needs two colours - first color is of the wire, the second is for the "dash"
+    style relates to the dash part
+    animateenable stops the animation, but still shows the dashed line
+    animatedisplay can be used to hide the animateline, but not the solid line
+    """
+    def __init__(
+            self,
+            start, end,
+            color, dashcolor,
+            anchor=('center', 'center'),
+            width=1, animwidth=-1,
+            style="dashed", spacing=[10,10],
+            dashoffset=0, dashanimate=0.4,
+            animateenable=True, animatedisplay=True):
+        """ AnimMarqueeLine Constructor __init__
+
+        Required arguments
+        * start - x, y start position
+        * end - x, y end position
+        
+        Optional arguments
+        * anchor - anchor point for rotation
+        * width - width of line in pixels
+        * style - type of line (solid / dashed)
+        * spacing - for dash (onlength, offlength)
+        * dashoffset - number of pixels offset for the first dash
+        * dashanimate - how far to animate the dash on each line
+        * animateenable - defaults to True. Set to False
+        * animatedisplay - defaults to True. Set to false to hide animate line,
+            but leave the solid line visible.
+        """
+    
         super().__init__(color, anchor)
         self._width = width
         self._dashoffset = dashoffset
