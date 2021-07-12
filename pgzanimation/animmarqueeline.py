@@ -52,7 +52,7 @@ class AnimMarqueeLine(PgzAnimation):
         
         # if animwidth is -1 (default) then set to same as width
         if (animwidth == -1):
-        	animwidth=width
+            animwidth=width
 
         self.style = style
         self.spacing = spacing
@@ -164,6 +164,12 @@ class AnimMarqueeLine(PgzAnimation):
     def scale_tween (self, start, end, current, newscale):
         self.primaryline.scale_tween(start, end, current, newscale)
         self.animline.scale_tween(start, end, current, newscale)
+        
+    # Reverse direction (of animateline only)
+    def reverse(self):
+        temp_pos = self.animline.start
+        self.animline.start = self.animline.end
+        self.animline.end = temp_pos
 
 
     def draw(self):

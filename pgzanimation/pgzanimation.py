@@ -1,4 +1,5 @@
 import pygame
+import pgzero
 import math
 
 # Library for creating animations in pygame zero which can be exported
@@ -39,6 +40,8 @@ class PgzAnimation():
         self._surface = pygame.display.get_surface()
 
     # set color
+    # Color is stored as the value given (so user can get back value that was set)
+    # To use in a subclass then call color_val()
     @property
     def color(self):
         return self._color
@@ -80,10 +83,22 @@ class PgzAnimation():
 
     @anchor.setter
     def anchor(self, new_anchor):
-        self._anchor = new_anchor
+        # Ensure list and not tuple so can change in other methods
+        self._anchor = [*new_anchor]
         self.calc_pos()
         # recalculate vectors
         self._transform()
+        
+    def color_val(self):
+        '''get color value in a format that can be passed to pygame objects
+
+        The main color value is stored in the same format as originally submitted,
+        this is not the case for secondary color formats (eg. background color, shadow color which are converted
+        to RGBA tuple (A = alpha - normally 255)
+        '''
+        if isinstance(self._color, pygame.Color):
+            return self._color
+        return pgzero.screen.make_color(self._color)
 
     # returns size of surface (screen size)
     def get_screen_size(self):

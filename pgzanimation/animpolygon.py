@@ -190,7 +190,7 @@ class AnimFilledPolygon(PgzAnimation):
         if self.hide: return
         # convert from list of tuples of floats to ints
         points_ints = [(round(point[0]),round(point[1])) for point in self._transform_points]
-        pygame.draw.polygon(self._surface, self._color, points_ints)
+        pygame.draw.polygon(self._surface, self.color_val(), points_ints)
 
 
 
@@ -228,4 +228,4 @@ class AnimPolygon (AnimFilledPolygon):
         if self.hide: return
         # convert from list of tuples of floats to ints
         points_ints = [(round(point[0]),round(point[1])) for point in self._transform_points]
-        pygame.draw.polygon(self._surface, self._color, points_ints, self.width)
+        pygame.draw.polygon(self._surface, self.color_val(), points_ints, self.width)

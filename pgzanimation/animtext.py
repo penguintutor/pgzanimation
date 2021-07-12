@@ -29,6 +29,7 @@ class AnimText(PgzAnimation):
             self._load_font (self.kwargs['fontname'])
 
 
+
     @property
     def fontsize(self):
         return self.kwargs['fontsize']
@@ -36,6 +37,25 @@ class AnimText(PgzAnimation):
     @fontsize.setter
     def fontsize(self, new_size):
         self.kwargs['fontsize'] = new_size
+        
+    def anchor_to_float(self):
+        """ anchor for text should be a float, this converts words to equivelant """
+        new_anchor = [0, 0]
+        # dictionary of x words
+        x_to_val = { "left": 0, "right": 1, "center": 0.5, "middle": 0.5}
+        y_to_val = { "top": 0, "bottom": 1, "center": 0.5, "middle": 0.5}
+        # ignore if already number
+        if (isinstance(self._anchor[0], int) or isinstance(self._anchor[0], float)) :
+            new_anchor[0] = self._anchor[0]
+        else:
+            if self._anchor[0] in x_to_val:
+                self._anchor[0] = x_to_val[self._anchor[0]]
+        if (isinstance(self._anchor[1], int) or isinstance(self._anchor[1], float)) :
+            new_anchor[1] = self._anchor[1]
+        else:
+            if self._anchor[1] in y_to_val:
+                self._anchor[1] = y_to_val[self._anchor[1]]
+        return new_anchor
 
     # Text alternative to scale - uses fontsize
     def fontsize_tween (self, start, end, current, newfontsize):
@@ -62,7 +82,8 @@ class AnimText(PgzAnimation):
 
     def draw(self):
         if (self.hide == True): return
-        ptext.draw(self.text, self._pos, angle=self._angle, color=self._color, surf=self._surface, anchor=self._anchor, **self.kwargs)
+        text_anchor = self.anchor_to_float()
+        ptext.draw(self.text, self._pos, angle=self._angle, color=self._color, surf=self._surface, anchor=text_anchor, **self.kwargs)
 
 # override ptext loader to use pgzero loader
 ptext.getfont = loaders.getfont

@@ -287,7 +287,7 @@ class AnimLine(PgzAnimation):
                 ]
         if (self.style == "solid"):
             pygame.draw.line(
-                self._surface, self._color, line_start, line_end,
+                self._surface, self.color_val(), line_start, line_end,
                 self._width)
         elif (self.style == "dashed"):
             self._draw_dashed(line_start, line_end)
@@ -303,7 +303,7 @@ class AnimLine(PgzAnimation):
         for this_segment in segments:
             # draw first part filled
             pygame.draw.line(
-                self._surface, self._color, this_segment[0],
+                self._surface, self.color_val(), this_segment[0],
                 this_segment[1], self._width)
 
     def _line_to_segments(self, line_start, line_end):

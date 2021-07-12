@@ -55,4 +55,4 @@ class AnimCircle(AnimFilledCircle):
 
     def draw(self):
         if self.hide: return
-        pygame.draw.ellipse(self._surface, self._color, self._transform_rect, self.width)
+        pygame.draw.ellipse(self._surface, self.color_val(), self._transform_rect, self.width)
