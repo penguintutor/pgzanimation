@@ -6,6 +6,7 @@
 
 import unittest
 from pgzanimation import *
+import pygame
 
 class TestVectors(unittest.TestCase):
     def test_dir_vector_1 (self):
@@ -13,8 +14,8 @@ class TestVectors(unittest.TestCase):
         vector = get_dir_vector(0)
         self.assertAlmostEqual(vector[0], test_vector[0])
         self.assertAlmostEqual(vector[1], test_vector[1])
-        
-        
+
+
     def test_dir_vector_2 (self):
         test_vector = [0,-1]
         vector = get_dir_vector(90)
@@ -32,34 +33,34 @@ class TestVectors(unittest.TestCase):
         vector = get_dir_vector(-90)
         self.assertAlmostEqual(vector[0], test_vector[0])
         self.assertAlmostEqual(vector[1], test_vector[1])
-        
+
     def test_dir_vector_4 (self):
         test_vector = [0,1]
         vector = get_dir_vector(270)
         self.assertAlmostEqual(vector[0], test_vector[0])
         self.assertAlmostEqual(vector[1], test_vector[1])
-        
+
     def test_dir_vector_4 (self):
         test_vector = [0.70710678,-0.70710678]
         vector = get_dir_vector(45)
         self.assertAlmostEqual(vector[0], test_vector[0])
         self.assertAlmostEqual(vector[1], test_vector[1])
-        
+
 class TestActor(unittest.TestCase):
     """ Test AnimActor class
-    
+
     Unable to test through test.py as needs to be called by pgzrun.
     Most of the operations are handled within the Pygame Zero Actor class
     """
     def test_create(self):
         #actor1 = AnimActor("alien")
         self.assertEqual(True, True)
-        
+
 class TestLine(unittest.TestCase):
     def test_create(self):
         line1 = AnimLine((50, 50), (750, 650), (211, 233, 111))
         self.assertEqual(line1.pos, [400, 350])
-        
+
     def test_horizontal(self):
         line1 = AnimLine((100, 100), (400, 100), (10, 10, 10))
         self.assertEqual(line1.pos, [250, 100])
@@ -67,15 +68,48 @@ class TestLine(unittest.TestCase):
     def test_vertical(self):
         line1 = AnimLine((200, 0), (200, 1080), (255, 255, 255))
         self.assertEqual(line1.pos, [200, 540])
-        
+
     def test_negative(self):
         line1 = AnimLine((-200, -200), (-100, -100), (23, 23, 23))
         self.assertEqual(line1.pos, [-150, -150])
-        
+
     def test_right_to_left(self):
         line1 = AnimLine((800,600), (100, 100), (0, 0, 255))
         self.assertEqual(line1.pos, [450, 350])
-                    
+
+    def test_color(self):
+        line1 = AnimLine((200, 100), (300, 50), (255, 0, 0))
+        self.assertEqual(line1.color, (255, 0, 0))
+        self.assertEqual(line1.color_val(), (255, 0, 0))
+        # Change using rgb tuple
+        line1.color = (0, 255, 0)
+        self.assertEqual(line1.color, (0, 255, 0))
+        self.assertEqual(line1.color_val(), (0, 255, 0))
+        # Set using string
+        line1.color = "blue"
+        self.assertEqual(line1.color, "blue")
+        # when not using RGB tuple for color then color_val includes alpha (ignore)
+        self.assertEqual(line1.color_val()[0:3], (0, 0, 255))
+        # set using HTML
+        line1.color = "#FF7F00"
+        self.assertEqual (line1.color, "#FF7F00")
+        self.assertEqual (line1.color_val()[0:3], (255, 127, 0))
+        # set using Hex
+        line1.color = "#007FFF"
+        self.assertEqual (line1.color, "#007FFF")
+        self.assertEqual (line1.color_val()[0:3], (0, 127, 255))
+        # set using Pygame Color
+        line1.color = pygame.Color("green")
+        self.assertEqual (line1.color, pygame.Color("green"))
+        self.assertEqual (line1.color_val(), pygame.Color("green"))
+        # set using RGBA
+        line1.color = pygame.Color(255, 0, 0, 128)
+        self.assertEqual (line1.color, pygame.Color(255, 0, 0, 128))
+        self.assertEqual (line1.color_val(), pygame.Color(255, 0, 0, 128))
+        line1.color = (0, 0, 255, 128)
+        self.assertEqual (line1.color, (0, 0, 255, 128))
+        self.assertEqual (line1.color_val(), (0, 0, 255, 128))
+
 
 class TestPolygon(unittest.TestCase):
     def test_create(self):
@@ -127,7 +161,7 @@ class TestPolygon(unittest.TestCase):
         polygon1.scale = (2,2)
         self.assertEqual(polygon1._points, [(100, 100), (200, 100), (200, 250), (100, 250)])
         self.assertEqual(polygon1.points, [(50, 25), (250, 25), (250, 325), (50, 325)])
-        
+
 class TestDashedLine(unittest.TestCase):
     def test_dash_1 (self):
         # Horizontal
@@ -135,7 +169,7 @@ class TestDashedLine(unittest.TestCase):
         #dash_line1.dashoffset += 6
         segments = dash_line1._line_to_segments((100,100), (200,100))
         self.assertEqual(segments, [[[100.0, 100.0], [110.0, 100.0]], [[115.0, 100.0], [125.0, 100.0]], [[130.0, 100.0], [140.0, 100.0]], [[145.0, 100.0], [155.0, 100.0]], [[160.0, 100.0], [170.0, 100.0]], [[175.0, 100.0], [185.0, 100.0]], [[190.0, 100.0], [200.0, 100.0]]])
-        
+
 
 
 if __name__ == '__main__':
