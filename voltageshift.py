@@ -101,13 +101,15 @@ shapes = {
     'terminal1' : AnimCircle ((input_start),10, "black", width=4),
     'terminal2' : AnimCircle ((output_end),10, "black", width=4),
     'inputtext' : AnimText ("Input", (input_start[0] - 80, input_start[1] - 50), "black", fontsize=40),
-    'inputvoltage' : AnimText ("0V", (input_start[0] - 15, input_start[1] + 5), "black", fontsize=40, anchor=("right", "center")),
+    'inputvoltage' : AnimText ("0V", (input_start[0] - 15, input_start[1] + 5), "blue", fontsize=40, anchor=("right", "center")),
     'outputtext' : AnimText ("Output", (output_end[0] + 10, output_end[1] - 40), "black", fontsize=40),
-    'outputvoltage' : AnimText ("5V", (output_end[0] + 70, output_end[1] + 5), "black", fontsize=40),
+    'outputvoltage' : AnimText ("5V", (output_end[0] + 25, output_end[1] + 5), "red", fontsize=40),
     'mosfet1' : AnimActor ("mosfet", mosfet_pos),
     'mosfettext' : AnimText ("MOSFET", (720, 400), "black", fontsize=40),
-    'mosfetstatustext' : AnimText ("Off", (720, 430), "black", fontsize=40),
+    'mosfetstatustext' : AnimText ("Off", (720, 430), "grey", fontsize=40),
     'rb' :  AnimActor ("resistorh", rb_pos),
+    'rbtext' : AnimText ("RB", (rb_pos[0] - 20, rb_pos[1] - 40), "black", fontsize=40),
+    'rltext' : AnimText ("RL", (rl_pos[0] + 20, rl_pos[1] - 10), "black", fontsize=40),
     'rl' :  AnimActor ("resistorv", rl_pos),
     'output_join' : AnimFilledCircle (output_start, 9, "black")
     }
@@ -139,8 +141,11 @@ def animate():
     if (frame == kf['turn-on']):
         this_group = shape_groups["wires-stage1"]
         shapes['inputvoltage'].text = "3.3V"
+        shapes['inputvoltage'].color = "red"
         shapes['mosfetstatustext'].text = "On"
+        shapes['mosfetstatustext'].color = "black"
         shapes['outputvoltage'].text = "0V"
+        shapes['outputvoltage'].color = "blue"
         shapes['outwire'].reverse()
         shapes['outwire'].color = "blue"
         shapes['rltodrain'].color = "blue"
@@ -150,13 +155,16 @@ def animate():
     if (frame == kf['turn-off']):
         this_group = shape_groups["wires-stage1"]
         shapes['inputvoltage'].text = "0V"
+        shapes['inputvoltage'].color = "blue"
         shapes['mosfetstatustext'].text = "Off"
+        shapes['mosfetstatustext'].color = "grey"
         shapes['outputvoltage'].text = "5V"
+        shapes['outputvoltage'].color = "red"
         shapes['outwire'].reverse()
-        shapes['outwire'].color = "blue"
-        shapes['rltodrain'].color = "blue"
+        shapes['outwire'].color = "red"
+        shapes['rltodrain'].color = "red"
         for this_shape in this_group.values():
-            this_shape.animatedisplay=True
+            this_shape.animatedisplay=False
 
 
 
