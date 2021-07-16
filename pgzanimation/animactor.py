@@ -28,6 +28,7 @@ class AnimActor(PgzAnimation):
         * anchor - anchor point for rotation
         * hide - if true then don't display
         * angle - rotation angle
+        * opacity (actually part of kwargs in constructor) = 1
         * **kwargs - any other Actor class arguments
         """
         # color is required parameter for PGZAnimation
@@ -46,6 +47,17 @@ class AnimActor(PgzAnimation):
         # if initial angle is not 0 then rotate now
         if self._angle != 0:
             self.rotate(self._angle)
+
+    # If opacity is set / queried then get this from the actor
+    # This is only available in Pygame Zero 1.3 or later
+    @property
+    def opacity(self):
+        return self.actor.opacity
+
+    @opacity.setter
+    def opacity(self, value):
+        if (value >= 0 and value <=1):
+            self.actor.opacity = value
 
     def draw(self):
         """ Draw the object on the surface """
@@ -69,3 +81,10 @@ class AnimActor(PgzAnimation):
         self.actor.anchor = (0, 0)
         self._angle = 0
         self.actor.angle = 0
+        
+    def animate_fadein(self, start, end, current):
+        if (current < start or current > end):
+            return
+        opacity_delta = 1 / (end-start)
+        self.opacity = (current - start) * opacity_delta
+        
