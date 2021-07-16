@@ -27,6 +27,7 @@ Import the relevant classes that you need from pgzanimation.
 ** Slide based animations
 *Slide              - Default slide (simple title)
 *SlideBullets       - Slide with bullet text
+*SlideImage         - Slide with an image (Actor)
 
 ** Helper functions
 *dir_vector         - gets a direction vector from an angle
@@ -46,5 +47,6 @@ from .animmarqueeline import AnimMarqueeLine
 from .animvectors import get_dir_vector
 from .slide import Slide
 from .slidebullets import SlideBullets
+from .slideimage import SlideImage
 
 __version__ = '0.1.devel'
