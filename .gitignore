@@ -1,5 +1,6 @@
 # Development files
 animationdemo.py
+pixel*
 
 
 # Byte-compiled / optimized / DLL files
@@ -13,6 +14,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 images/
+fonts/
 build/
 develop-eggs/
 dist/
