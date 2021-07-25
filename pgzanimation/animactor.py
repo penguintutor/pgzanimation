@@ -86,5 +86,5 @@ class AnimActor(PgzAnimation):
         if (current < start or current > end):
             return
         opacity_delta = 1 / (end-start)
-        self.opacity = (current - start) * opacity_delta
+        self.actor.opacity = (current - start) * opacity_delta
         

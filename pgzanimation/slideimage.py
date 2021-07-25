@@ -33,8 +33,10 @@ class SlideImage(Slide):
         if (imagetransition == "move"):
             pass
         else:
+            top_menu_y_spacing = 120
             # set to centre of screen (minus top menu)
-            position = (size[0] / 2, (size[1] - 220) / 2 + 220)  
+            position = (size[0] / 2, 
+                (size[1] - top_menu_y_spacing) / 2 + top_menu_y_spacing)  
         # Create actor
         self._actor = AnimActor (image, position)
         # If hidden / fade then set here
