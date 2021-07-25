@@ -102,6 +102,7 @@ class SlideImage(Slide):
                         current_frame)
                 # also unhide
                 self._actor.hide = False
+                print ("Opacity set to {}".format(self._actor.opacity))
                 
             #todo animate here eg. move
             
