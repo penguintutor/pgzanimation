@@ -1,15 +1,20 @@
 import pygame
 import pgzero.screen
-# import local ptext as that supports more granular rotation
 from pgzero import ptext
 from .pgzanimation import PgzAnimation
 from .animtext import AnimText
 
-# Special text which has bullets
+""" Provides an object for a single bullet. Use for bulleted text lists
 # bulletstyle can be circle (default) or none (use for spacing to line up with other bullets)
 # Distance from pos is bulletpad + bulletsize + bulletpad
-# bullettransition is how the bullet will appear when called using animate_bullet
-# currently just support appear = appear immediately when start frame reached
+# bullettransition is how the bullet will appear when called using
+animate_bullet. Currently supports: 
+* appear = appear immediately when start frame reached
+* slidefromleft = slide in from left hand side
+* slidefromright = slide in from righ hand side
+* slidefromtop = slide in from top of screen
+* slidefrombutton = slide in from bottom of screen
+"""
 
 class AnimBulletText(AnimText):
 

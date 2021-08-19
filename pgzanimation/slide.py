@@ -2,14 +2,14 @@ from .pgzanimation import PgzAnimation
 from pgzanimation import AnimText
 import pygame
 
-# Slides are templates which can be used for view slides
-# or animations.
-# Start with a fixed layout, but many of the parameters can be
-# changed after initialising
-# Starts disabled and then needs to be called through show_slide
-# animate_slide calls default actions (eg. for bullets is showing
-# size is size of screen
-
+""" Slides are templates which can be used for view slides
+or animations.
+Start with a fixed layout, but many of the parameters can be
+changed after initialising
+Starts disabled and then needs to be called through show_slide
+animate_slide calls default actions (eg. for bullets is showing)
+size is size of screen
+"""
 
 class Slide():
 
