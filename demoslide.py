@@ -36,7 +36,7 @@ bullets1_timings = [
 shapes = []
 
 slides = [
-    SlideBullets ((WIDTH,HEIGHT), "Slide Title", bullets1, bulletpause=False, bullettransition="slidefrombottom")
+    SlideBullets ((WIDTH,HEIGHT), "Slide Title", bullets1, bulletpause=False, bullettransition=["slidefrombottom"])
     ]
 
 
