@@ -9,8 +9,9 @@ TITLE = "PgzAnimation"
 # Save options
 # Continue to save frames when paused?
 SAVE_PAUSED = True
-# enable to show frame number on screen (not included in save)
+# enable to show frame number and/or mouse on screen (not included in save)
 SHOW_FRAME = True
+SHOW_MOUSE = True
 # Exit after last frame?
 QUIT_END = False
 
@@ -58,7 +59,7 @@ def draw():
         this_shape.draw()
     for this_slide in slides:
         this_slide.draw()
-        
+
     # Save animation frame
     if (save == True and ( pause == False or SAVE_PAUSED == True)):
         pygame.image.save(screen.surface, save_files.format(save_frame))
@@ -66,6 +67,8 @@ def draw():
     if SHOW_FRAME:
         # frame is incremented at end - so display number of previous frame
         screen.draw.text(str(frame-1), (20,20), color=(250, 50, 50), fontsize=60)
+    if SHOW_MOUSE:
+        screen.draw.text("Mouse "+str(pygame.mouse.get_pos()), (20, 60), color=(50, 50, 250), fontsize=60)
 
 
 def update():
