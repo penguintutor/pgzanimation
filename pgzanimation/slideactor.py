@@ -1,8 +1,9 @@
 from .pgzanimation import PgzAnimation
-from pgzanimation import AnimImage
+from pgzanimation import AnimActor
 from .slide import Slide
 import math
-class SlideImage(Slide):
+class SlideActor(Slide):
+    """ Same as SlideImage, but using Actor class """
     """ SlideImage slide with one image which can be animated
     
     Slide showing one image and title
@@ -38,7 +39,7 @@ class SlideImage(Slide):
             position = (size[0] / 2, 
                 (size[1] - top_menu_y_spacing) / 2 + top_menu_y_spacing)  
         # Create actor
-        self._actor = AnimImage (image, position)
+        self._actor = AnimActor (image, position)
         # If hidden / fade then set here
         if (imagetransition == "appear" or imagetransition == "fadein"):
             self._actor.hide = True

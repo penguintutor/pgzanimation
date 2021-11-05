@@ -1,9 +1,9 @@
 from .pgzanimation import PgzAnimation
-from pgzanimation import AnimBulletText
+from pgzanimation import AnimBulletText, AnimImage
 from .slide import Slide
 import math
 
-""" Slide showing title and bullets 
+""" Slide showing title, bullets and an image 
 text for bullets is provided in a list bullets
  default is to place bullet in a single depth, 
  to increment depth prefix with *
@@ -18,7 +18,18 @@ text for bullets is provided in a list bullets
  "\* bullet depth 0"
  First \ will be removed and then returned so use \\ to escape the \
 bullet spacing is distance between bullets (including the bullet)
+
+ bulletimages holds the image filename and positioning. If the image is blank then no image is shown.
+ 
+ bullet images is created as an internal list of animimages, which can be accessed separately as required. 
+
  bulletstartpos = top left
+ 
+ bulletimagepos = center of image (allow different images to still be in
+ same position.
+ IMPORTANT - using the pos as the center of the image is different to other
+ classes which normally use topleft 
+ 
  bulletspacing = y distance
  bulletanimate - if True then reveal each bullet one at a time
         if False then show all immediately
@@ -29,25 +40,38 @@ bullet spacing is distance between bullets (including the bullet)
  bulletstyle is list supporting each depth. 
  bulletpad can be a list of tuples (tuple representing before and after padding)
  
+ bulletimageafter if set to True bullet image transition will start after the bullet has completely appeared (otherwise at same time)
+ 
  Limitations: Does not currently support multiline single bullets
  Possible future addition is to add - at beginning (after *) to indicate override bulletstyle with none which would result in lining up but no
  additional bullet signal
     
+ currently image transition start and end is same, perhaps add bulletimagetransitionend for hiding bullet
+    
  """
 
-class SlideBullets(Slide):
+class SlideBulletsImages(Slide):
     MAX_DEPTH = 10
-    def __init__(self, size, title, bullets, bulletstartpos=(50,220),
+    def __init__(self, size, title, bullets, bulletimages,
+            bulletstartpos=(50,220), bulletimagepos=(950, 380),
             bulletspacing=80, bulletanimate=True, bulletpause=False,
-            bullettransition=["appear"], bulletstyle=["circle"], bulletsize=[10], bulletpad=[10]
+            bullettransition=["appear"], bulletimagetransition=["appear"], 
+            bulletstyle=["circle"], bulletsize=[10], bulletpad=[10],
+            bulletimageafter = True
             ):
         super().__init__(size, title)
         self._bullets = []
+        self._images = []
         # bullet position is always top left of all bullets
         self._bullet_pos = bulletstartpos
         self.bullettransition=bullettransition
-        # list of tuples for start and end of each bullet transition and after the after time (start transition, end transition, after)
+        self.bulletimagetransition=bulletimagetransition
+        # list of tuples for start and end of each bullet transition and after the transition time (start transition, end transition, after)
         self._bullet_transitiontime = []
+        # image transition is same as bullet transition but no after
+        self._image_transitiontime = []
+        # end transition is for image to transition off before next bullet
+        self._image_end_transitiontime = []
         # to prevent crashing must be at least one bullet - set to blank
         if len(bullets) == 0:
             bullets.append("")
@@ -80,13 +104,29 @@ class SlideBullets(Slide):
                 bulletpad=this_bulletpad
                 ))
             this_y_pos += bulletspacing
+        for this_image in bulletimages:
+            if (this_image == ""):
+                # If no image then make it a None object
+                # Can add later if required
+                self._images.append(None)
+            else:
+                # have a filename create image object, hidden
+                self._images.append(AnimImage(this_image, bulletimagepos, hide=True))
+            
         self.bulletpause = bulletpause
+        self.bulletimageafter = bulletimageafter
+
 
 
     def draw(self):
         # if not enabled then we don't show anything
         if (super().draw() == False):
             return
+        # Draw images first 
+        # If overlap then text will go over images
+        for this_image in self._images:
+            if (this_image != None):
+                this_image.draw()
         for this_bullet in self._bullets:
             this_bullet.draw()
 
@@ -100,10 +140,11 @@ class SlideBullets(Slide):
     # of timings for each transition [(before,during,after)] - in frame numbers (allows overlapping)
     # after of 1st transition will be added to before of next transition
     # pause occurs after the after value, but before the next before
+    # images are set to disappear near end of the time
     def animate_slide (self, start, end, timings=None):
         # reset animation times
         self._bullet_transitiontime = []
-        # Default timings
+        # Default timings if none provided
         if (timings == None):
             # work out time delta between start and end (share between bullets)
             # must be min 2x more frames between end and start than there are bullets
@@ -118,7 +159,32 @@ class SlideBullets(Slide):
                     current_start+time_delta,
                     current_start+(time_delta*2)-1 # pause if applicable after display # -1 so as to pause before next transition starts
                     ))
+                # if image comes after bullet transition
+                if (self.bulletimageafter):
+                    self._image_transitiontime.append((
+                        current_start+time_delta,
+                        current_start+(time_delta*2)
+                        # No after parameter (not required for images)
+                        ))
+                else:
+                    # otherwise image transition is same as bullet
+                    self._image_transitiontime.append((
+                        current_start,
+                        current_start+time_delta
+                        # No after parameter (not required for images)
+                        ))
+                
+                # end image is + 1 time period
+                self._image_end_transitiontime.append((
+                    current_start+(time_delta*2),   # start time_delta before next bullet & image
+                    current_start+(time_delta*3)
+                    # No after parameter (not required for images)
+                    ))
+                
+                
+                # Increment current start 
                 current_start+=time_delta*2
+                
         # otherwise we have timings provided
         else:
             # transitions needs to be same as number of timings, if not
@@ -139,6 +205,7 @@ class SlideBullets(Slide):
         super().update(current_frame)
         # if we are not getting current frame then just display all bullets
         # thanks to draw it will still only show if slide is not hidden through hide attribute
+        # this will not show images
         if (current_frame == -1):
             self._enable = True
             for this_bullet in self._bullets:
@@ -153,6 +220,15 @@ class SlideBullets(Slide):
         # otherwise skip
         for this_bullet_num in range(0, len( self._bullet_transitiontime)):
             self._bullets[this_bullet_num].animate_bullet (self._bullet_transitiontime[this_bullet_num][0], self._bullet_transitiontime[this_bullet_num][1], current_frame)
+            
+            # check if image exists (as it's optional)
+            if (this_bullet_num < len(self._images) and self._images[this_bullet_num] != None):
+                # Animate to show image
+                self._images[this_bullet_num].animate_start_image (self._image_transitiontime[this_bullet_num][0], self._image_transitiontime[this_bullet_num][1], current_frame)
+                # Also create transition to remove 
+                self._images[this_bullet_num].animate_end_image (self._image_end_transitiontime[this_bullet_num][0], self._image_end_transitiontime[this_bullet_num][1], current_frame)
+            
+                
             # if this is an end frame then set pause
             if (self._bullet_transitiontime[this_bullet_num][2] == current_frame and self.bulletpause==True):
                 print ("**** Pausing ****")

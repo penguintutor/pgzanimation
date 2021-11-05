@@ -11,6 +11,7 @@ Import the relevant classes that you need from pgzanimation.
 ** Standard animation classes
 *PGZAnimation       - Abstract parent class
 *AnimActor          - Sprite based animations
+*AnimImage          - Same as AnimActor 
 *AnimLine           - Draw a straight line
 *AnimMarqueeLine    - Draw a straight line with dash / marching ants
 *AnimEllipse        - Create an ellipse
@@ -23,10 +24,14 @@ Import the relevant classes that you need from pgzanimation.
 *AnimFilledRect     - Create a filled rectangle
 *AnimText           - Create text
 *AnimBullet         - Create bullet text
+*AnimTriangle       - Create triangles
+*AnimFilledTriangle - Create a filled triangles
+*AnimLineEnd        - Line ends (eg. Arrows)
 
 ** Slide based animations
 *Slide              - Default slide (simple title)
 *SlideBullets       - Slide with bullet text
+*SlideBulletsImages - Slide with bullet text and (opt) images
 *SlideImage         - Slide with an image (Actor)
 
 ** Helper functions
@@ -36,17 +41,21 @@ For more details see http://www.penguintutor.com/pgzanimation
 """
 
 from .animactor import AnimActor
+from .animimage import AnimImage
 from .animpolygon import AnimFilledPolygon, AnimPolygon
 from .animrect import AnimFilledRect, AnimRect
 from .animtext import AnimText
 from .animbullettext import AnimBulletText
 from .animellipse import AnimFilledEllipse, AnimEllipse
 from .animcircle import AnimFilledCircle, AnimCircle
+from .animtriangle import AnimFilledTriangle, AnimTriangle
 from .animline import AnimLine
+from .animlineend import AnimLineEnd
 from .animmarqueeline import AnimMarqueeLine
 from .animvectors import get_dir_vector
 from .slide import Slide
 from .slidebullets import SlideBullets
+from .slidebulletsimages import SlideBulletsImages
 from .slideimage import SlideImage
 
 __version__ = '0.1.devel'
