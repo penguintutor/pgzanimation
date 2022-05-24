@@ -1,5 +1,5 @@
 import pygame
-
+import math
 # import local ptext as that supports more granular rotation override resolution
 from pgzero import ptext
 from pgzero import loaders
@@ -9,6 +9,9 @@ from .pgzanimation import PgzAnimation
 class AnimText(PgzAnimation):
 
     # has fixed mandatory fields then kwargs
+    # mode "normal" = display full string
+    # mode "typewriter" = reveal 1 char at a time as typewriter
+    # Note typewriter does not guarentee a monospace font (may change in future)
     def __init__(
         self,
         text_string,
@@ -17,10 +20,20 @@ class AnimText(PgzAnimation):
         anchor=(0, 0),
         angle=0,
         hide=False,
+        mode= "normal",
         **kwargs,
     ):
         super().__init__(color, anchor, hide=hide)
-        self.text = text_string
+        # different text strings - eg if only partially displayed
+        # _full_text is the complete string
+        # _text is what's currently being displayed
+        self._full_text = text_string
+        self._text = text_string
+        self.mode = mode
+        if (self.mode == "typewriter"):
+            self._text = ""
+        # _display_chars only used in typewriter (or reveal modes) - otherwise ignored
+        self._display_chars = 0
         # These parameters are common across all pgzanimation so defined here
         self._pos = [*pos]
         self._angle = angle
@@ -36,7 +49,7 @@ class AnimText(PgzAnimation):
         self.fontsize_start = self.kwargs["fontsize"]
         # If fontname specified then load it
         if "fontname" in self.kwargs:
-            self._load_font(self.kwargs["fontname"])
+            self._load_font(self.kwargs["fontname"]) 
 
     @property
     def fontsize(self):
@@ -45,6 +58,49 @@ class AnimText(PgzAnimation):
     @fontsize.setter
     def fontsize(self, new_size):
         self.kwargs["fontsize"] = new_size
+    
+    # Getter returns full text even if less showed
+    @property
+    def text(self):
+        return self._full_text
+
+    # Sets the complete text - may be partially hidden eg. if typewriter mode
+    @text.setter
+    def text(self, new_text):
+        self._full_text = new_text
+        # also update what is being displayed
+        self._text = text_string
+        # typewriter mode - reset to 0
+        if (mode == "typewriter"):
+            self._text = ""
+            self._display_chars = 0
+            self.update_text()
+            
+    # Typewriter pos - allows jump to appropriate position
+    @property
+    def typewriter_pos(self):
+        return self._display_chars
+
+    @typewriter_pos.setter
+    def typewriter_pos(self, new_pos):
+        self._display_chars = new_pos
+        self.update_text()
+        
+    # Updates display of text - used for reveal
+    def update_text(self):
+        # if standard mode then _text = _full_text
+        if (self.mode == "normal"):
+            self._text = self._full_text
+        
+        elif self._display_chars <= 0:
+            self._text = ""
+            
+        elif self._display_chars > len(self._full_text):
+            self._text = self._full_text
+            
+        else:
+            self._text = self._full_text[0:self._display_chars]
+
 
     def anchor_to_float(self):
         """anchor for text should be a float, this converts words to equivelant"""
@@ -87,19 +143,42 @@ class AnimText(PgzAnimation):
 
     def _load_font(self, fontname):
         font = loaders.getfont(fontname)
+        
+    # typewriter mode
+    # If not already in typewriter mode then set to typewriter mode
+    # start_pos can be used to continue from an existing point
+    # it will display all chars to the left it won't hide them
+    # end_pos is the last char to display in this tween or 0 = all
+    def typewriter_tween(self, start, end, current, start_pos=0, end_pos=0):
+        if (current < start or current > end):
+            return
+        if (current == start):
+            self.mode == "typewriter"
+            self._display_chars = start_pos
+        # if end is 0 then show all - so set end to len of string
+        if end_pos == 0:
+            end_pos = len(self._full_text)
+        # work out num chars to display
+        num_frames = end - start
+        num_chars = end_pos - start_pos
+        self._display_chars = math.floor ((num_chars / num_frames) * (current-start) ) + start_pos
+        print ("Pos {}".format(self._display_chars))
+        self.update_text()
+        
 
     def draw(self):
         if self.hide == True:
             return
         text_anchor = self.anchor_to_float()
+        #print ("Displaying "+self._show_text+" "+str(self._pos))
         ptext.draw(
-            self.text,
+            self._text,
             self._pos,
             angle=self._angle,
             color=self._color,
             surf=self._surface,
             anchor=text_anchor,
-            **self.kwargs,
+            **self.kwargs
         )
 
 
