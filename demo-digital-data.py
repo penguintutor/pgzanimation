@@ -3,21 +3,21 @@ import pygame, sys
 
 WIDTH = 1280
 HEIGHT = 720
-FRAMES = 720
-TITLE = "PGZAnimation - Clock demo"
+FRAMES = 1800
+TITLE = "PGZAnimation - Transmit digital data"
 
 # Save options
 # Continue to save frames when paused?
 SAVE_PAUSED = True
 # enable to show frame number on screen (not included in save)
-SHOW_FRAME = False
+SHOW_FRAME = True
 SHOW_MOUSE = True
 # Exit after last frame?
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
 save = True
-save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
+save_files = "c:/test-animations/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
 frame=0
@@ -26,12 +26,6 @@ pause = False
 
 background_color = (0,255,0)
 background_image = ""
-
-# min hand from y 218 to 380
-hand_width = 10
-hand_min_len = 380-218
-hand_min_pos = (WIDTH/2, hand_min_len/2 + 218)
-
 
 # Can use shapes and/or shape_groups
 # shape groups are a dictionary of shape dictionaries
@@ -43,10 +37,9 @@ hand_min_pos = (WIDTH/2, hand_min_len/2 + 218)
 # swap which is displayed as a way of positioning in the stack
 shape_groups = {}
 shapes = {
-    'clock': AnimActor ("clock-background", (WIDTH/2,HEIGHT/2)),
-    'hand-min': AnimActor ("handmin", (WIDTH/2,HEIGHT/2)),
-    'hand-hour': AnimActor ("handhour", (WIDTH/2,HEIGHT/2)),
-    'hand-centre': AnimActor ("handcentre", (WIDTH/2,HEIGHT/2))
+    'data1': AnimText ("11001010 10011011 00100010 10100101 01011000 10010101 11001010 10011011 00100010 10100101 01011000 10010101", (-1500, HEIGHT/2)),
+    'mask-left': AnimActor ("green-mask", (200,400)),
+    'mask-right': AnimActor ("green-mask", (WIDTH-200,400))
 }
 
 # Add any pauses to this
@@ -89,8 +82,7 @@ def update():
 # Place your animations here
 def animate():
     # Add animations here
-    shapes['hand-min'].angle-=6
-    shapes['hand-hour'].angle-=0.5
+    shapes['data1'].move_tween(100, 2100, frame, (1500,HEIGHT/2))
     pass
 
 

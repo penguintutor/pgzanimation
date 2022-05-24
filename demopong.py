@@ -15,7 +15,7 @@ SHOW_FRAME = False
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
-save = True
+save = False
 save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
@@ -53,7 +53,7 @@ def draw():
 
     for this_shape in shapes.values():
         this_shape.draw()
-        
+
     # Save animation frame
     if (save == True and ( pause == False or SAVE_PAUSED == True)):
         pygame.image.save(screen.surface, save_files.format(save_frame))
@@ -79,7 +79,7 @@ def update():
     shapes['leftbat'].move_tween(time_bat[3]+30, time_bat[4], frame, (leftbat_x, 160))
     if (frame == time_bat[4]):
         shapes['rightscore'].text = "01"
-        shapes['ball'].pos = shapes['leftbat'].pos 
+        shapes['ball'].pos = shapes['leftbat'].pos
     shapes['ball'].move_tween(time_bat[4], time_bat[5], frame, (leftbat_x, 150))
     shapes['leftbat'].move_tween(time_bat[4]+10, time_bat[5], frame, (leftbat_x, 150))
     shapes['ball'].move_tween(time_bat[5], time_bat[6], frame, (rightbat_x, 250))
@@ -90,7 +90,7 @@ def update():
     shapes['rightbat'].move_tween(time_bat[7]+10, time_bat[8]-5, frame, (rightbat_x, 420))
     if (frame == time_bat[8]):
         shapes['leftscore'].text = "01"
-        shapes['ball'].pos = shapes['rightbat'].pos 
+        shapes['ball'].pos = shapes['rightbat'].pos
     #shapes['rightbat'].move_tween(time_bat[8]+10, time_bat[9]-20, frame, (rightbat_x, 240))
     shapes['ball'].move_tween(time_bat[9], time_bat[10], frame, (leftbat_x, 460))
     shapes['leftbat'].move_tween(time_bat[9]+10, time_bat[10], frame, (leftbat_x, 462))

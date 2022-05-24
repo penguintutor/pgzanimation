@@ -1,37 +1,42 @@
 from pgzanimation import AnimFilledTriangle, AnimText, AnimFilledCircle, AnimLine, AnimActor, get_dir_vector, AnimFilledPolygon
 import pygame, sys
+import time
 
 WIDTH = 1280
-HEIGHT = 720
-FRAMES = 720
-TITLE = "PGZAnimation - Clock demo"
+HEIGHT = 400
+FRAMES = 1800
+TITLE = "PGZAnimation - Password demo 2"
+
+''' Show dictionary cracking '''
 
 # Save options
 # Continue to save frames when paused?
 SAVE_PAUSED = True
 # enable to show frame number on screen (not included in save)
-SHOW_FRAME = False
+SHOW_FRAME = True
 SHOW_MOUSE = True
 # Exit after last frame?
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
-save = True
-save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
+save = False
+save_files = "c:/test-animations/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
 frame=0
 save_frame=0
 pause = False
 
-background_color = (0,255,0)
+background_color = (255,255,255)
 background_image = ""
 
-# min hand from y 218 to 380
-hand_width = 10
-hand_min_len = 380-218
-hand_min_pos = (WIDTH/2, hand_min_len/2 + 218)
+font_size = 200
 
+word_position = 0
+words = ["password", "pa$sword", "pa$$word", "pa$$w0rd", "password1", "password12", "password123",
+        "Password", "Pa$sword", "Pa$$word", "Pa$$w0rd", "Pa$$w0rd!", "Password1", "Password12", "Password123",
+        "iloveyou", "Iloveyou", "ILoveyou", "ILoveYou", "il0veyou", "il0vey0u", "Il0veyou", "IL0veY0u",
+        "jasper", "jasper1", "Jasper", "Jasper1", "jasper12", "Jasper12", "jasper123", "Jasper123"]
 
 # Can use shapes and/or shape_groups
 # shape groups are a dictionary of shape dictionaries
@@ -43,10 +48,7 @@ hand_min_pos = (WIDTH/2, hand_min_len/2 + 218)
 # swap which is displayed as a way of positioning in the stack
 shape_groups = {}
 shapes = {
-    'clock': AnimActor ("clock-background", (WIDTH/2,HEIGHT/2)),
-    'hand-min': AnimActor ("handmin", (WIDTH/2,HEIGHT/2)),
-    'hand-hour': AnimActor ("handhour", (WIDTH/2,HEIGHT/2)),
-    'hand-centre': AnimActor ("handcentre", (WIDTH/2,HEIGHT/2))
+    'crack': AnimText ("", (WIDTH/2, HEIGHT/2), fontsize=font_size, anchor=[0.5, 0.5])
 }
 
 # Add any pauses to this
@@ -88,9 +90,15 @@ def update():
 
 # Place your animations here
 def animate():
+    global word_position
     # Add animations here
-    shapes['hand-min'].angle-=6
-    shapes['hand-hour'].angle-=0.5
+    shapes["crack"].text = words[word_position]
+    word_position += 1
+    if (word_position >= len(words)):
+        word_position = 0
+    # Does not actually slow the end video
+    # Makes it easier to see effect when creating video
+    time.sleep(0.5)
     pass
 
 

@@ -1,23 +1,24 @@
-from pgzanimation import AnimFilledTriangle, AnimText, AnimFilledCircle, AnimLine, AnimActor, get_dir_vector, AnimFilledPolygon
+from pgzanimation import AnimFilledRect, AnimText, AnimFilledCircle, AnimLine, AnimLed
+from random import randrange
 import pygame, sys
 
 WIDTH = 1280
 HEIGHT = 720
-FRAMES = 720
-TITLE = "PGZAnimation - Clock demo"
+FRAMES = 3600
+TITLE = "LED Light Demo"
 
 # Save options
 # Continue to save frames when paused?
 SAVE_PAUSED = True
 # enable to show frame number on screen (not included in save)
-SHOW_FRAME = False
+SHOW_FRAME = True
 SHOW_MOUSE = True
 # Exit after last frame?
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
 save = True
-save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
+save_files = "/home/stewart/cheerlight-demo/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
 frame=0
@@ -26,12 +27,6 @@ pause = False
 
 background_color = (0,255,0)
 background_image = ""
-
-# min hand from y 218 to 380
-hand_width = 10
-hand_min_len = 380-218
-hand_min_pos = (WIDTH/2, hand_min_len/2 + 218)
-
 
 # Can use shapes and/or shape_groups
 # shape groups are a dictionary of shape dictionaries
@@ -43,11 +38,11 @@ hand_min_pos = (WIDTH/2, hand_min_len/2 + 218)
 # swap which is displayed as a way of positioning in the stack
 shape_groups = {}
 shapes = {
-    'clock': AnimActor ("clock-background", (WIDTH/2,HEIGHT/2)),
-    'hand-min': AnimActor ("handmin", (WIDTH/2,HEIGHT/2)),
-    'hand-hour': AnimActor ("handhour", (WIDTH/2,HEIGHT/2)),
-    'hand-centre': AnimActor ("handcentre", (WIDTH/2,HEIGHT/2))
+    'message': AnimText ("Lighting up the world", (400, 100), fontsize=40, fontname="monospacetypewriter", mode="typewriter", hide=False),
 }
+
+
+num_leds = 18
 
 # Add any pauses to this
 pause_frames = []
@@ -55,6 +50,17 @@ pause_frames = []
 # key frames (can just use number if preferred, but this allows labels)
 kf = {
     'start': 0,
+    'intro': 200,
+    'introoff': 800,
+    'text1': 1000,
+    'red': 1050,
+    'text1off': 1200,
+    'text2': 1500,
+    'blue': 1550,
+    'text2off': 1700,
+    'text3': 2000,
+    'green': 2050,
+    'text3off': 2200,
     'end': 3600
     }
 
@@ -89,10 +95,8 @@ def update():
 # Place your animations here
 def animate():
     # Add animations here
-    shapes['hand-min'].angle-=6
-    shapes['hand-hour'].angle-=0.5
-    pass
-
+    shapes['message'].typewriter_tween(50, 550, frame)
+    
 
 
 
@@ -113,6 +117,8 @@ def controls():
     frame += 1
     save_frame += 1
     print ("Frame is {}".format(frame))
+
+
 
 # Handle keys - when released
 def on_key_up (key, mod):
