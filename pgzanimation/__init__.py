@@ -11,7 +11,7 @@ Import the relevant classes that you need from pgzanimation.
 ** Standard animation classes
 *PGZAnimation       - Abstract parent class
 *AnimActor          - Sprite based animations
-*AnimImage          - Same as AnimActor 
+*AnimImage          - Same as AnimActor
 *AnimLine           - Draw a straight line
 *AnimMarqueeLine    - Draw a straight line with dash / marching ants
 *AnimEllipse        - Create an ellipse
@@ -27,6 +27,7 @@ Import the relevant classes that you need from pgzanimation.
 *AnimTriangle       - Create triangles
 *AnimFilledTriangle - Create a filled triangles
 *AnimLineEnd        - Line ends (eg. Arrows)
+*AnimLed            - LED light circle
 
 ** Slide based animations
 *Slide              - Default slide (simple title)
@@ -52,10 +53,12 @@ from .animtriangle import AnimFilledTriangle, AnimTriangle
 from .animline import AnimLine
 from .animlineend import AnimLineEnd
 from .animmarqueeline import AnimMarqueeLine
+from .animled import AnimLed
 from .animvectors import get_dir_vector
 from .slide import Slide
 from .slidebullets import SlideBullets
 from .slidebulletsimages import SlideBulletsImages
 from .slideimage import SlideImage
+
 
 __version__ = '0.1.devel'
