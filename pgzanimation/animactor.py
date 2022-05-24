@@ -44,6 +44,7 @@ class AnimActor(PgzAnimation):
 
         # Create the actor class
         self.actor = Actor(image, self._pos, actor=self._anchor, **self.kwargs)
+        #print (len(self.actor._surface_cache))
         # if initial angle is not 0 then rotate now
         if self._angle != 0:
             self.rotate(self._angle)
@@ -81,10 +82,9 @@ class AnimActor(PgzAnimation):
         self.actor.anchor = (0, 0)
         self._angle = 0
         self.actor.angle = 0
-        
+
     def animate_fadein(self, start, end, current):
         if (current < start or current > end):
             return
         opacity_delta = 1 / (end-start)
         self.opacity = (current - start) * opacity_delta
-        
