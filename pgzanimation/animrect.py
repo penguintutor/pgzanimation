@@ -4,6 +4,10 @@ import pygame
 # Must only have 1 movement happening at a time - otherwise confusion over which applies
 # Can have a rotate at the same time as a movement
 
+""" Takes a Rect object - could be of the format:
+    Rect(left, top, width, height)
+    Rect((left, top), (width, height))
+"""
 
 class AnimFilledRect(AnimFilledPolygon):
 
@@ -32,9 +36,10 @@ class AnimFilledRect(AnimFilledPolygon):
 
     @rect.setter
     def rect(self, new_rect):
-        self._points = self.rect_to_points(new_rect)
+        #self._points = self.rect_to_points(new_rect)
+        self.rect_to_points(new_rect)
         # reapply any existing transforms
-        self._transform_points()
+        self._transform()
 
     def rect_to_points(self, rect):
         self._points = [rect.topleft, rect.topright, rect.bottomright, rect.bottomleft]

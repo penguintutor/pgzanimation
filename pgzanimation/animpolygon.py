@@ -1,4 +1,5 @@
 import pygame
+from pygame import Rect
 import math
 from .pgzanimation import PgzAnimation
 

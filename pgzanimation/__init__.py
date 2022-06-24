@@ -28,6 +28,7 @@ Import the relevant classes that you need from pgzanimation.
 *AnimFilledTriangle - Create a filled triangles
 *AnimLineEnd        - Line ends (eg. Arrows)
 *AnimLed            - LED light circle
+*AnimBarDisplay     - Bar display / precentage bar
 
 ** Slide based animations
 *Slide              - Default slide (simple title)
@@ -59,6 +60,7 @@ from .slide import Slide
 from .slidebullets import SlideBullets
 from .slidebulletsimages import SlideBulletsImages
 from .slideimage import SlideImage
+from .animbardisplay import AnimBarDisplay
 
 
 __version__ = '0.1.devel'

@@ -3,7 +3,7 @@ import pygame, sys
 
 WIDTH = 1280
 HEIGHT = 720
-FRAMES = 50
+FRAMES = 500
 TITLE = "Basic Electrical Circuit"
 
 # Save options
@@ -15,7 +15,7 @@ SHOW_FRAME = False
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
-save = True
+save = False
 save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
@@ -66,10 +66,10 @@ pause_frames = []
 # key frames (can just use number if preferred, but allows labels)
 kf = {
     'start': 0,
-    'start-close': 5,
-    'close': 10,
-    'start-open': 40,
-    'open': 45 
+    'start-close': 40,
+    'close': 60,
+    'start-open': 200,
+    'open': 220
     }
 
 # Set any initial states
@@ -105,7 +105,7 @@ def draw():
             this_shape.draw()
     for this_shape in shapes.values():
         this_shape.draw()
-        
+
     # Save animation frame
     if (save == True and ( pause == False or SAVE_PAUSED == True)):
         pygame.image.save(screen.surface, save_files.format(save_frame))
