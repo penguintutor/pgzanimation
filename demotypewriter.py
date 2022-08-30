@@ -17,7 +17,7 @@ SHOW_MOUSE = True
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
-save = True
+save = False
 save_files = "/home/stewart/cheerlight-demo/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length
@@ -96,7 +96,7 @@ def update():
 def animate():
     # Add animations here
     shapes['message'].typewriter_tween(50, 550, frame)
-    
+
 
 
 

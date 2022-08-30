@@ -33,11 +33,12 @@ class Slide():
     # set title
     @property
     def title(self):
-        return self._title
+        print ("Reading title")
+        return self._title.text
 
     @title.setter
     def title(self, new_title):
-        self._title._text_string = new_title
+        self._title.text = new_title
 
     # enables the slide (eg. shows the title)
     # This doesn't take the current frame, it allows you to define

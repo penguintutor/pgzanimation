@@ -25,7 +25,7 @@ class AnimLed(AnimFilledEllipse):
         self.led_type = led_type
         self._led_color = color
         #self._color = color
-        
+
         # Create the outer circle
         super().__init__(self._rect, self.get_outer_color(), anchor)
         # Create a smaller circle
@@ -97,7 +97,7 @@ class AnimLed(AnimFilledEllipse):
         # If it's a tuple then need to expand
         if (type(self._led_color) == pygame.Color):
             set_color = copy(self._led_color)
-        elif (type(self._color) == tuple):
+        elif (type(self._led_color) == tuple):
             set_color = Color(*self._led_color)
         else:
             set_color = Color(self._led_color)
@@ -142,7 +142,7 @@ class AnimLed(AnimFilledEllipse):
             ypos = pos[1] - 2 * radius
         # If top then leave as pos[1]
         return pygame.Rect(xpos, ypos, 2 * radius, 2 * radius)
-    
+
     def update(self):
         # Update colors
         self.color = self.get_outer_color()
@@ -161,8 +161,8 @@ class AnimLed(AnimFilledEllipse):
     def led_color(self, new_color):
         self._led_color = new_color
         self.update()
-       
-    
+
+
 
     # Gets a rect object - can be used for collidepoint etc.
     # Uses a bounding box based on current transformations

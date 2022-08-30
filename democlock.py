@@ -16,7 +16,7 @@ SHOW_MOUSE = True
 QUIT_END = False
 
 # Is save enabled (otherwise just display animation)
-save = True
+save = False
 save_files = "/home/stewart/test-animations/animation-{0:05d}.png"
 # frame is the animation frame number
 # when pause then save_frame continues to count to extend video length

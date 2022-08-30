@@ -49,7 +49,7 @@ class AnimText(PgzAnimation):
         self.fontsize_start = self.kwargs["fontsize"]
         # If fontname specified then load it
         if "fontname" in self.kwargs:
-            self._load_font(self.kwargs["fontname"]) 
+            self._load_font(self.kwargs["fontname"])
 
     @property
     def fontsize(self):
@@ -58,7 +58,7 @@ class AnimText(PgzAnimation):
     @fontsize.setter
     def fontsize(self, new_size):
         self.kwargs["fontsize"] = new_size
-    
+
     # Getter returns full text even if less showed
     @property
     def text(self):
@@ -69,13 +69,13 @@ class AnimText(PgzAnimation):
     def text(self, new_text):
         self._full_text = new_text
         # also update what is being displayed
-        self._text = text_string
+        self._text = new_text
         # typewriter mode - reset to 0
-        if (mode == "typewriter"):
+        if (self.mode == "typewriter"):
             self._text = ""
             self._display_chars = 0
             self.update_text()
-            
+
     # Typewriter pos - allows jump to appropriate position
     @property
     def typewriter_pos(self):
@@ -85,19 +85,19 @@ class AnimText(PgzAnimation):
     def typewriter_pos(self, new_pos):
         self._display_chars = new_pos
         self.update_text()
-        
+
     # Updates display of text - used for reveal
     def update_text(self):
         # if standard mode then _text = _full_text
         if (self.mode == "normal"):
             self._text = self._full_text
-        
+
         elif self._display_chars <= 0:
             self._text = ""
-            
+
         elif self._display_chars > len(self._full_text):
             self._text = self._full_text
-            
+
         else:
             self._text = self._full_text[0:self._display_chars]
 
@@ -143,7 +143,7 @@ class AnimText(PgzAnimation):
 
     def _load_font(self, fontname):
         font = loaders.getfont(fontname)
-        
+
     # typewriter mode
     # If not already in typewriter mode then set to typewriter mode
     # start_pos can be used to continue from an existing point
@@ -164,7 +164,7 @@ class AnimText(PgzAnimation):
         self._display_chars = math.floor ((num_chars / num_frames) * (current-start) ) + start_pos
         print ("Pos {}".format(self._display_chars))
         self.update_text()
-        
+
 
     def draw(self):
         if self.hide == True:
