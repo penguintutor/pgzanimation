@@ -9,7 +9,8 @@ object based on keyframes with tweens between the keyframes.
 
 This is different from the Animation feature within Pygame Zero. This
 is specifically created to support the keyframes and tweens between them.
-It still runs as a pygame zero application and can be used in conjunction with any other pygame zero objects and methods (including Pygame Zero animations).
+It still runs as a pygame zero application and can be used in conjunction 
+with any other pygame zero objects and methods (including Pygame Zero animations).
 This handles all objects in an object orientated way and adds additional
 features things such as tween scaling and tween rotation. 
 
@@ -19,13 +20,19 @@ This is currently in an early development. It includes some basic functionality
 which will be expanding in future. The interface and object names may change
 significantly in future.
 
+## Getting started
+
+Please see the following link for the website, including a demonstration 
+video and explanation of the demo code.
+[PGZAnimation - Creating videos with Pygame Zero](http://www.penguintutor.com/projects/pgzanimation)
+
 
 ## Features / limitations
 
-There must be only 1 movement happening at a time. This makes sense as 
-otherwise there may be confusion on what should happen eg. if a tween 
-should still finish at it's current target position or whether that should
-be relative.
+There must be only 1 movement happening to a particular object at a time. 
+This makes sense as otherwise there may be confusion on what should happen
+eg. if a tween should still finish at it's current target position or whether 
+that should be relative.
 Having multiple movements at the same time is unpredictable and my result in
 strange behaviour.
 
@@ -45,8 +52,9 @@ keyframes. Where a method refers to goto then that is absolute,
 where it refers to a delta then that is relative to the current value. Where
 this is applied to a tween then it is relative to the position at the start
 of the tween (see limitations about possible conflicts). It is not possible to
-use position relative to original position if that has already changed (unless you record the position yourself). Rotation angles are in degrees
-and are normally absolute angles from the original orientation, but can be
+use a position relative to original position if that has already changed 
+(unless you store the position in a variable yourself). Rotation angles are in 
+degrees and are normally absolute angles from the original orientation, but can be
 relative for some methods.
 
 ## Converting from png files to a animation
