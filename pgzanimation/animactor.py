@@ -59,6 +59,18 @@ class AnimActor(PgzAnimation):
     def opacity(self, value):
         if (value >= 0 and value <=1):
             self.actor.opacity = value
+            
+#     @property
+#    def myactor(self):
+#        return self.actor
+    
+#    @property
+#    def image(self):
+#        return self.actor.image
+    
+#    @image.setter
+#    def image(self, image_file):
+#        self.myactor.image = image_file
 
     def draw(self):
         """ Draw the object on the surface """

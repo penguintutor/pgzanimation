@@ -271,7 +271,11 @@ class AnimLine(PgzAnimation):
             # special case - if vertical then will result in divide by 0
             # so instead use 90 degrees - as radians
             if (line_end[0] == line_start[0]):
-                angle = math.radians(90)
+                # Does line go up (90) or down (270)
+                if (line_start[1] > line_end[1]):
+                    angle = math.radians(270)
+                else:
+                    angle = math.radians(90)
             else:
                 angle = math.atan(
                     (line_end[1] - line_start[1])
@@ -419,7 +423,7 @@ class AnimLine(PgzAnimation):
         """
         if (current < start or current > end):
             return
-        if (current == start):
+        if (current >= start):
             self.hide = False
         # convert frame position to percentage to display
         self.reveal = ((current-start) / (end-start)) * 100
